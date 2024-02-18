@@ -1,0 +1,24 @@
+{
+  "name": "nova-wallet",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "An e-wallet that allows the user to manage, transfer and deposit money in a convenient and easy way.",
+  "author": {
+    "name": "Sara Rioseco",
+    "email": "sara.rioseco@gmail.com",
+    "url": "https://github.com/sara-rioseco/"
+  },
+  "main": "./src/index.html",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "e-wallet",
+    "javascript",
+    "html5",
+    "css3",
+    "jquery"
+  ],
+  "license": "MIT"
+}
+
