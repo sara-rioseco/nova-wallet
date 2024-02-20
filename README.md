@@ -8,7 +8,7 @@ NovaWallet is a modern e-wallet web application designed to provide users with a
 - **Wallet Management:** Users can easily add funds to their wallet, view their balance, and perform transactions seamlessly.
 - **Transaction History:** Keep track of all transactions with a detailed history view, including timestamps and transaction amounts.
 - **Responsive Design:** NovaWallet is optimized for both desktop and mobile devices, providing a consistent experience across all platforms.
-- **Customizable Settings:** Users can personalize their experience by adjusting settings such as currency preferences and dark/light mode.
+- **Customizable Settings:** Users can personalize their experience by adjusting settings such as currency preferences and change between dark and light mode.
 
 ## Technologies Used
 
