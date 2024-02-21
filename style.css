@@ -2,6 +2,7 @@
   --ff-body: Poppins;
   --ff-button: Roboto;
 
+  --fs-200: clamp(0.80rem, calc(0.78rem + 0.08vw), 0.84rem);
   --fs-300: clamp(0.94rem, calc(0.92rem + 0.08vw), 0.98rem);
   --fs-400: clamp(1.13rem, calc(1.06rem + 0.33vw), 1.31rem);
   --fs-500: clamp(1.35rem, calc(1.21rem + 0.69vw), 1.75rem);
@@ -134,9 +135,9 @@ body {
   line-height: 1.6;
   scroll-behavior: smooth;
   background: var(--clr-primary-300);
-  background: -moz-radial-gradient(circle, var(--clr-primary-400) 0%, var(--clr-primary-800) 100%);
-  background: -webkit-radial-gradient(circle, var(--clr-primary-400) 0%, var(--clr-primary-800) 100%);
-  background: radial-gradient(circle, var(--clr-primary-400) 0%, var(--clr-primary-800) 100%);
+  background: -moz-radial-gradient(circle, var(--clr-primary-500) 0%, var(--clr-primary-800) 85%);
+  background: -webkit-radial-gradient(circle, var(--clr-primary-500) 0%, var(--clr-primary-800) 85%);
+  background: radial-gradient(circle, var(--clr-primary-500) 0%, var(--clr-primary-800) 85%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#9c9c9c", endColorstr="#2d2d2d", GradientType=1);
 }
 
@@ -149,6 +150,7 @@ body::before {
   background-repeat: no-repeat;
   background-attachment: fixed;
   z-index: -1;
+  margin-bottom: -0.5em;
 }
 
 .root {
@@ -170,6 +172,7 @@ div.root::after {
   background-repeat: no-repeat;
   background-attachment: fixed;
   z-index: -1;
+  margin-bottom: -0.5em;
 }
 
 div.root::before {
@@ -177,10 +180,11 @@ div.root::before {
   left: 0;
   bottom: 0;
   content: url(./assets/images/wave2.svg);
-  width: 100%;
+  width: 100vw;
   background-repeat: no-repeat;
   background-attachment: fixed;
   z-index: -2;
+  margin-bottom: -0.5em;
 }
 
 h1 {
@@ -188,6 +192,7 @@ h1 {
   font-weight: 500;
   margin-block: 20px;
   text-shadow: 0 3px 3px var(--clr-transp-500);
+  font-size: var(--fs-600);
 }
 
 h1 span {
@@ -220,6 +225,39 @@ h1 span {
 .transfer-wrapper,
 .transactions-wrapper {
   width: 100vw;
+  height: calc(100vh - 57.59px);
+  display: flex;
+  flex-direction: column;
+}
+
+.home-content-wrapper,
+.deposit-content-wrapper,
+.transfer-content-wrapper,
+.transactions-content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--clr-transp-200);
+  background: -moz-radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
+  background: -webkit-radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
+  background: radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
+  border-radius: 32px;
+  align-self: center;
+  max-width: 900px;
+  max-height: 500px;
+  flex: 1;
+}
+
+/*------- Footer ----------*/
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  color: var(--clr-primary-400);
+  font-size: var(--fs-200);
+  font-family: Poppins;
+  text-align: center;
+  font-weight: 200;
 }
 
 /* ------- Buttons ------- */
@@ -489,26 +527,32 @@ header::after {
 }
 
 @media (min-width: 750px) {
-  .header-container {
-    display: flex;
-    justify-content: space-between;
+  header {
+    position: fixed;
+    padding: 0;
   }
 
-  div.container {
-    max-width: 100vw;
+  .header-container {
+    width: 100vw;
+    height: 57.59px;
     display: flex;
     justify-content: space-between;
-    padding: 0;
-    margin: 0 2rem;
+    align-items: center;
+    padding: 0 0 0 2rem;
+    margin: 0;
+  }
+
+  ul {
+    max-width: fit-content;
   }
 
   .primary-navigation.primary-navigation {
     position: static;
     display: flex;
     background: transparent;
-    gap: 1rem;
-    max-width: 500px;
     justify-content: space-evenly;
+    height: 57.59px;
+    align-items: center;
   }
 
   .menu-toggle,
@@ -516,24 +560,13 @@ header::after {
     display: none;
   }
 
-  .primary-navigation li {
-    border: 0;
-    padding: 0;
-  }
-
-  .primary-navigation a {
-    background: transparent;
-    padding: 0;
-    max-width: fit-content;
-  }
-
-  ul {
-    margin-block: 0;
-    padding-inline: 0;
-  }
-
   .site-nav li {
-    max-width: fit-content;
+    border: 0;
+    width: fit-content;
     text-wrap: nowrap;
+    padding: 1em;
+    margin-block: auto;
+    min-height: 57.59px;
   }
+
 }
