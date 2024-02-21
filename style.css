@@ -2,7 +2,7 @@
   --ff-body: Poppins;
   --ff-button: Roboto;
 
-  --fs-200: clamp(0.80rem, calc(0.78rem + 0.08vw), 0.84rem);
+  --fs-200: clamp(0.74rem, calc(0.78rem + 0.08vw), 0.78rem);
   --fs-300: clamp(0.94rem, calc(0.92rem + 0.08vw), 0.98rem);
   --fs-400: clamp(1.13rem, calc(1.06rem + 0.33vw), 1.31rem);
   --fs-500: clamp(1.35rem, calc(1.21rem + 0.69vw), 1.75rem);
@@ -21,7 +21,7 @@
   --clr-primary-800: rgba(34, 34, 34, 1);
   --clr-primary-900: rgba(30, 30, 30, 1);
 
-  --clr-transp-100: rgba(255, 255, 255, 0.9);
+  --clr-transp-100: rgba(255, 255, 255, 0.1);
   --clr-transp-200: rgba(217, 217, 217, 0.6);
   --clr-transp-300: rgba(173, 173, 173, 0.7);
   --clr-transp-400: rgba(117, 117, 117, 0.6);
@@ -202,14 +202,15 @@ h1 span {
 .login-wrapper,
 .sign-up-wrapper {
   background: var(--clr-transp-200);
-  background: -moz-radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
-  background: -webkit-radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
-  background: radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
+  background: -moz-radial-gradient(circle, var(--clr-primary-100) 50%, var(--clr-transp-200) 100%);
+  background: -webkit-radial-gradient(circle, var(--clr-primary-100) 50%, var(--clr-transp-200) 100%);
+  background: radial-gradient(circle, var(--clr-primary-100) 50%, var(--clr-transp-200) 100%);
   border-radius: 32px;
   align-self: center;
 }
 
-.login-content-wrapper {
+.login-content-wrapper,
+.sign-up-content-wrapper {
   min-width: 300px;
   min-height: 320px;
   padding-inline: 40px;
@@ -242,10 +243,13 @@ h1 span {
   background: -webkit-radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
   background: radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
   border-radius: 32px;
-  align-self: center;
-  max-width: 900px;
-  max-height: 500px;
-  flex: 1;
+  width: max(300px, 90vw);
+  min-height: 600px;
+  flex: 1 1 auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /*------- Footer ----------*/
@@ -291,6 +295,7 @@ button:active {
   padding-inline: 0.6em;
   border-radius: 16px;
   max-width: 12.5rem;
+  min-width: 250px;
   height: 2.5rem;
   color: var(--clr-primary-400);
   border: 1px solid var(--clr-primary-300);
@@ -301,7 +306,7 @@ button:active {
   line-height: 14px;
   margin: 0 10px;
   display: inline-block;
-  min-width: 200px;
+  min-width: 250px;
   max-width: 12.5rem;
   height: 2.5rem;
   border-radius: 16px;
@@ -340,6 +345,10 @@ button:active {
 .input-text:not(:focus):not(:placeholder-shown)~.input-label {
   color: var(--clr-primary-400);
   background-color: var(--clr-primary-100);
+  background: var(--clr-primary-100);
+  background: -moz-linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
+  background: -webkit-linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
+  background: linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
 }
 
 .input-label {
@@ -351,14 +360,15 @@ button:active {
   color: var(--clr-primary-400);
   cursor: text;
   transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in, color 200ms ease-in;
-  background-color: var(--clr-primary-100);
+  background: var(--clr-primary-100);
+  background: linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
 }
 
 /* ------- NAV BAR ------- */
 
 .header-container {
   width: 95%;
-  max-width: 100vw;
+  max-width: 80vw;
   margin: 0 40px;
 }
 
@@ -402,6 +412,7 @@ header::after {
   margin: 0;
   padding: 0;
   list-style: none;
+  z-index: 1;
 }
 
 .primary-navigation[data-state="opened"] {
@@ -569,4 +580,15 @@ header::after {
     min-height: 57.59px;
   }
 
+  .header-container {
+    max-width: 100vw;
+  }
+
+  .home-content-wrapper,
+  .deposit-content-wrapper,
+  .transfer-content-wrapper,
+  .transactions-content-wrapper {
+    min-width: 700px;
+    min-height: 500px;
+  }
 }

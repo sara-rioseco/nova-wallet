@@ -11,7 +11,7 @@ export const input = (name, id, type) => {
   input.id = `${id}`;
   input.autocomplete = 'new-password';
   input.placeholder = ' ';
-  input.name = 'nope';
+  input.name = `${name}`;
   input.required = true;
 
   label.setAttribute('for', `${id}`);
