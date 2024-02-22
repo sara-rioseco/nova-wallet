@@ -1,9 +1,9 @@
-import Login from '../pages/login.js';
-import SignUp from '../pages/signup.js';
-import Home from '../pages/home.js';
-import Deposit from '../pages/deposit.js';
-import Transfer from '../pages/transfer.js';
-import Transactions from '../pages/transactions.js';
+import Login from './pages/login.js';
+import SignUp from './pages/signup.js';
+import Home from './pages/home.js';
+import Deposit from './pages/deposit.js';
+import Transfer from './pages/transfer.js';
+import Transactions from './pages/transactions.js';
 
 const rootDiv = document.getElementById('root');
 

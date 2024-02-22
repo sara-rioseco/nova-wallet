@@ -1,16 +1,17 @@
-import { header } from '../../components/header.js';
+import { header } from '../components/header.js';
 import { footer } from '../components/footer.js';
 
-export default function Transfer(onNavigate) {
+export default function Transactions(onNavigate) {
   const wrapper = document.createElement('div');
   const content = document.createElement('main');
   const nav = header(onNavigate);
   const foot = footer();
   const title = document.createElement('h2');
 
-  title.textContent = 'Esta es la opción para transferir';
-  wrapper.className = 'transfer-wrapper';
-  content.className = 'transfer-content-wrapper';
+  title.textContent =
+    'Esta es la opción para ver el historial de transacciones';
+  wrapper.className = 'transactions-wrapper';
+  content.className = 'transactions-content-wrapper';
 
   content.appendChild(title);
   wrapper.appendChild(nav);
