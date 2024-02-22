@@ -1,0 +1,27 @@
+{
+  "data": {
+    "users": [
+      {
+        "uid": 1,
+        "name": "Sara",
+        "lastname": "Rioseco",
+        "email": "sara.rioseco@gmail.com",
+        "password": "123456",
+        "role": "admin",
+        "balance": 300,
+        "transactions": [
+          { "date": "2024-02-20", "amount": 500, "type": "deposit" },
+          { "date": "2024-02-20", "amount": 200, "type": "transfer" }
+        ],
+        "contacts": [
+          {
+            "id": 1,
+            "name": "Mauricio",
+            "lastname": "Rioseco",
+            "email": "mauricio@mail.com"
+          }
+        ]
+      }
+    ]
+  }
+}
