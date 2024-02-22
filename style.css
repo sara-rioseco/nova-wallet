@@ -190,7 +190,7 @@ div.root::before {
 h1 {
   letter-spacing: 8px;
   font-weight: 500;
-  margin-block: 20px;
+  margin-block: 15px;
   text-shadow: 0 3px 3px var(--clr-transp-500);
   font-size: var(--fs-600);
 }
@@ -199,8 +199,25 @@ h1 span {
   font-weight: 700;
 }
 
+p.login-text,
+p.signup-text {
+  min-width: 0;
+  line-height: 1.2;
+  font-size: var(--fs-200);
+  white-space: pre-line;
+  overflow-wrap: break-word;
+  text-align: right;
+  justify-self: end;
+}
+
+p.login-text>span,
+p.signup-text>span {
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .login-wrapper,
-.sign-up-wrapper {
+.signup-wrapper {
   background: var(--clr-transp-200);
   background: -moz-radial-gradient(circle, var(--clr-primary-100) 50%, var(--clr-transp-200) 100%);
   background: -webkit-radial-gradient(circle, var(--clr-primary-100) 50%, var(--clr-transp-200) 100%);
@@ -210,15 +227,20 @@ h1 span {
 }
 
 .login-content-wrapper,
-.sign-up-content-wrapper {
+.signup-content-wrapper {
   min-width: 300px;
-  min-height: 320px;
-  padding-inline: 40px;
+  height: 380px;
+  padding-inline: 20px;
   display: grid;
   gap: 30px;
-  margin-block: 40px;
+  margin-block: 20px;
   justify-items: center;
+  justify-content: space-between;
   align-content: center;
+}
+
+.signup-content-wrapper {
+  gap: 6.6px;
 }
 
 .home-wrapper,
@@ -243,7 +265,7 @@ h1 span {
   background: -webkit-radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
   background: radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
   border-radius: 32px;
-  width: max(300px, 90vw);
+  width: min(900px, 90vw);
   min-height: 600px;
   flex: 1 1 auto;
   position: fixed;
