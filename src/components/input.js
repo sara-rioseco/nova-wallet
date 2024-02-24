@@ -15,7 +15,7 @@ export const input = (name, id, type) => {
   input.required = true;
 
   label.setAttribute('for', `${id}`);
-  label.textContent = `${name}`;
+  label.textContent = `Enter your ${name}`;
 
   wrapper.appendChild(input);
   wrapper.appendChild(label);
