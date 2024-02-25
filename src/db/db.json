@@ -5,12 +5,12 @@
       "name": "Sara",
       "lastname": "Rioseco",
       "email": "sara.rioseco@gmail.com",
-      "password": "123456",
+      "password": "654321",
       "role": "admin",
       "balance": 300,
       "transactions": [
-        { "date": "2024-02-20", "amount": 500, "type": "deposit" },
-        { "date": "2024-02-20", "amount": 200, "type": "transfer" }
+        { "date": "20-02-2024", "amount": 500, "type": "deposit" },
+        { "date": "20-02-2024", "amount": -200, "type": "transfer" }
       ],
       "contacts": [
         {
@@ -20,6 +20,45 @@
           "email": "mauricio@mail.com"
         }
       ]
+    },
+    {
+      "uid": 2,
+      "name": "Pepito",
+      "lastname": "Rioseco",
+      "email": "rioseco@gmail.com",
+      "password": "123456",
+      "role": "user",
+      "balance": 0,
+      "transactions": [
+        { "date": "20-02-2024", "amount": 100, "type": "deposit" },
+        { "date": "24-02-2024", "amount": -100, "type": "transfer" }
+      ],
+      "contacts": [
+        {
+          "id": 1,
+          "name": "Mauricio",
+          "lastname": "Rioseco",
+          "email": "mauricio@mail.com"
+        }
+      ]
+    },
+    {
+      "uid": 3,
+      "name": "Juanita",
+      "lastname": "Perez",
+      "email": "joanita@mail.com",
+      "password": "password",
+      "role": "user",
+      "balance": 800,
+      "transactions": [
+        { "date": "24-02-2024", "amount": 500, "type": "deposit" },
+        { "date": "24-02-2024", "amount": -500, "type": "transfer" },
+        { "date": "24-02-2024", "amount": 500, "type": "deposit" },
+        { "date": "24-02-2024", "amount": 500, "type": "deposit" },
+        { "date": "24-02-2024", "amount": -200, "type": "transfer" }
+      ],
+      "contacts": []
     }
-  ]
+  ],
+  "cachibaches": ["cachibache1", "cachibache2"]
 }

@@ -17,7 +17,7 @@
     "preview": "vite preview",
     "eslint": "eslint --ext .js",
     "pretest": "npm run eslint  && npm run htmlhint",
-    "test": "jest --coverage",
+    "test": "jest --coverage --verbose",
     "start": "npm run dev"
   },
   "keywords": [
@@ -55,3 +55,4 @@
     "testEnvironment": "jsdom"
   }
 }
+
