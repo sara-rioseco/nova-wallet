@@ -129,14 +129,42 @@ export default function dataServices() {
 
   // BALANCE
   const getBalance = user => user.balance;
-
-  const updateBalance = (data, uid, transaction) => {
+  // falta probar
+  const updateBalance = async (data, uid, transaction) => {
     if (!data || !uid || !transaction || typeof uid !== 'number') {
       throw new Error('Wrong argument types');
     }
+
+    const user = getUserById(data, uid);
+
+    if (!user) throw new Error('No user was found');
+
+    const newBalance = user.balance + transaction.amount;
+
+    const updatedUser = {
+      uid,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password,
+      role: user.role,
+      balance: newBalance,
+      transactions: user.transactions,
+      contacts: user.contacts,
+    };
+
+    const userI = data.users.indexOf(user);
+
+    if (userI !== -1) {
+      data.users.splice(userI, 1, updatedUser);
+    }
+
     try {
-      // TO DO
-      console.log(data, uid, transaction);
+      await fs.writeFile(dataUrl, JSON.stringify(data), {
+        encoding: 'utf-8',
+      });
+      console.log(data);
+      return updatedUser.balance;
     } catch (err) {
       console.log(err.message);
     }
@@ -145,7 +173,8 @@ export default function dataServices() {
   // TRANSACTIONS
   const getTransactions = user => user.transactions;
 
-  const addTransaction = (data, uid, amount) => {
+  // falta probar
+  const addTransaction = async (data, uid, amount) => {
     if (
       !data ||
       !uid ||
@@ -155,9 +184,44 @@ export default function dataServices() {
     ) {
       throw new Error('Wrong argument types');
     }
+
+    const user = getUserById(data, uid);
+
+    if (!user) throw new Error('No user was found');
+
+    const transactions = getTransactions(user);
+    const newTransaction = {
+      date: new Date().toLocaleDateString(),
+      amount: amount,
+      type: amount > 0 ? 'deposit' : 'transfer',
+    };
+
+    transactions.push(newTransaction);
+
+    const updatedUser = {
+      uid,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password,
+      role: user.role,
+      balance: user.balance,
+      transactions: transactions,
+      contacts: user.contacts,
+    };
+
+    const userI = data.users.indexOf(user);
+
+    if (userI !== -1) {
+      data.users.splice(userI, 1, updatedUser);
+    }
+
     try {
-      // TO DO
-      console.log(data, uid, amount);
+      await fs.writeFile(dataUrl, JSON.stringify(data), {
+        encoding: 'utf-8',
+      });
+      console.log(data);
+      return updatedUser.transactions[transactions.length - 1];
     } catch (err) {
       console.log(err.message);
     }
@@ -166,7 +230,7 @@ export default function dataServices() {
   // CONTACTS
   const getContacts = user => user.contacts;
 
-  const addContact = (data, uid, name, lastname, email) => {
+  const addContact = async (data, uid, name, lastname, email) => {
     if (
       !data ||
       !uid ||
@@ -248,4 +312,5 @@ export default function dataServices() {
 const { getData } = dataServices();
 
 const d = await getData();
-console.log('data here', d);
+console.log(d);
+// console.log(await updateBalance(d, 2, await addTransaction(d, 2, -100)));
