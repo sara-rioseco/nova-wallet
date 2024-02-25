@@ -1,18 +1,12 @@
 /* eslint-disable no-console */
 import * as fs from 'node:fs/promises';
-// import { User, Transaction, Contact } from '../models/models.js';
 
 export default function dataServices() {
-  const dataUrl = new URL('../db/db.json', import.meta.url);
-
+  const dataUrl = './src/db/db.json';
   // DATA
   const getData = async function () {
-    try {
-      const data = await fs.readFile(dataUrl, { encoding: 'utf8' });
-      return JSON.parse(data);
-    } catch (err) {
-      console.log(err.message);
-    }
+    const data = await fs.readFile(dataUrl, { encoding: 'utf8' });
+    return JSON.parse(data);
   };
 
   // USERS
@@ -22,22 +16,23 @@ export default function dataServices() {
     if (!data || !uid || typeof uid !== 'number') {
       throw new Error('Wrong argument types');
     }
-    try {
-      return data.users.filter(user => user.uid === uid)[0];
-    } catch (e) {
-      throw new Error('Unable to find user', e.message);
+    const user = data.users.find(user => user.uid === uid);
+    if (!user) {
+      throw new Error('Unable to find user');
     }
+    return user;
   };
 
-  const getUserByEmail = async function (data, email) {
+  const getUserByEmail = (data, email) => {
     if (!data || !email || typeof email !== 'string') {
       throw new Error('Wrong argument types');
     }
-    try {
-      return data.users.filter(user => user.email === email)[0] || null;
-    } catch (e) {
-      throw new Error('Unable to find user', e.message);
+
+    const user = data.users.find(user => user.email === email);
+    if (!user) {
+      throw new Error('Unable to find user');
     }
+    return user;
   };
 
   const createUser = async function (data, name, lastname, email, password) {
@@ -105,7 +100,6 @@ export default function dataServices() {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
         encoding: 'utf-8',
       });
-      console.log(data);
       return updatedUser;
     } catch (err) {
       console.log('Unable to update user', err.message);
@@ -129,7 +123,7 @@ export default function dataServices() {
 
   // BALANCE
   const getBalance = user => user.balance;
-  // falta probar
+
   const updateBalance = async (data, uid, transaction) => {
     if (!data || !uid || !transaction || typeof uid !== 'number') {
       throw new Error('Wrong argument types');
@@ -163,7 +157,6 @@ export default function dataServices() {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
         encoding: 'utf-8',
       });
-      console.log(data);
       return updatedUser.balance;
     } catch (err) {
       console.log(err.message);
@@ -173,7 +166,6 @@ export default function dataServices() {
   // TRANSACTIONS
   const getTransactions = user => user.transactions;
 
-  // falta probar
   const addTransaction = async (data, uid, amount) => {
     if (
       !data ||
@@ -220,7 +212,6 @@ export default function dataServices() {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
         encoding: 'utf-8',
       });
-      console.log(data);
       return updatedUser.transactions[transactions.length - 1];
     } catch (err) {
       console.log(err.message);
@@ -230,23 +221,71 @@ export default function dataServices() {
   // CONTACTS
   const getContacts = user => user.contacts;
 
-  const addContact = async (data, uid, name, lastname, email) => {
+  const getContactById = (data, uid, id) => {
     if (
       !data ||
       !uid ||
-      !name ||
-      !lastname ||
-      !email ||
+      !id ||
       typeof uid !== 'number' ||
-      typeof name !== 'string' ||
-      typeof lastname !== 'string' ||
-      typeof email !== 'string'
+      typeof id !== 'number'
     ) {
       throw new Error('Wrong argument types');
     }
+    const user = getUserById(data, uid);
+
+    if (!user) throw new Error('No user was found');
+
+    const userI = data.users.indexOf(user);
+
     try {
-      // TO DO
-      console.log(data, uid, name, lastname, email);
+      return data.users[userI].contacts.filter(contact => contact.id === id)[0];
+    } catch (e) {
+      throw new Error('Unable to find contact', e.message);
+    }
+  };
+
+  const addContact = async (data, uid, options) => {
+    if (!data || !uid || !options || typeof uid !== 'number') {
+      throw new Error('Wrong argument types');
+    }
+    const user = getUserById(data, uid);
+
+    if (!user) throw new Error('No user was found');
+
+    const contacts = getContacts(user);
+
+    const newContact = {
+      id: contacts.length + 1,
+      name: options.name,
+      lastname: options.lastname,
+      email: options.email,
+    };
+
+    contacts.push(newContact);
+
+    const updatedUser = {
+      uid,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password,
+      role: user.role,
+      balance: user.balance,
+      transactions: user.transactions,
+      contacts: contacts,
+    };
+
+    const userI = data.users.indexOf(user);
+
+    if (userI !== -1) {
+      data.users.splice(userI, 1, updatedUser);
+    }
+
+    try {
+      await fs.writeFile(dataUrl, JSON.stringify(data), {
+        encoding: 'utf-8',
+      });
+      return updatedUser.contacts[contacts.length - 1];
     } catch (err) {
       console.log(err.message);
     }
@@ -263,9 +302,48 @@ export default function dataServices() {
     ) {
       throw new Error('Wrong argument types');
     }
+    const user = getUserById(data, uid);
+
+    if (!user) throw new Error('No user was found');
+
+    const contacts = getContacts(user);
+    const contact = getContactById(data, uid, contactId);
+    const contactI = contacts.indexOf(contact);
+
+    const updatedContact = {
+      id: contactId,
+      name: options.name || contact.name,
+      lastname: options.lastname || contact.lastname,
+      email: options.email || contact.email,
+    };
+
+    if (contactI !== -1) {
+      contacts.splice(contactI, 1, updatedContact);
+    }
+
+    const updatedUser = {
+      uid,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password,
+      role: user.role,
+      balance: user.balance,
+      transactions: user.transactions,
+      contacts: contacts,
+    };
+
+    const userI = data.users.indexOf(user);
+
+    if (userI !== -1) {
+      data.users.splice(userI, 1, updatedUser);
+    }
+
     try {
-      // TO DO
-      console.log(data, uid, contactId, options);
+      await fs.writeFile(dataUrl, JSON.stringify(data), {
+        encoding: 'utf-8',
+      });
+      return updatedUser.contacts[contactI];
     } catch (err) {
       console.log(err.message);
     }
@@ -281,9 +359,41 @@ export default function dataServices() {
     ) {
       throw new Error('Wrong argument types');
     }
+    const user = getUserById(data, uid);
+
+    if (!user) throw new Error('No user was found');
+
+    const contacts = getContacts(user);
+    const contact = getContactById(data, uid, contactId);
+    const contactI = contacts.indexOf(contact);
+
+    if (contactI !== -1) {
+      contacts.splice(contactI, 1);
+    }
+
+    const updatedUser = {
+      uid,
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password,
+      role: user.role,
+      balance: user.balance,
+      transactions: user.transactions,
+      contacts: contacts,
+    };
+
+    const userI = data.users.indexOf(user);
+
+    if (userI !== -1) {
+      data.users.splice(userI, 1, updatedUser);
+    }
+
     try {
-      // TO DO
-      console.log(data, uid, contactId);
+      await fs.writeFile(dataUrl, JSON.stringify(data), {
+        encoding: 'utf-8',
+      });
+      return updatedUser.contacts;
     } catch (err) {
       console.log(err.message);
     }
@@ -303,14 +413,20 @@ export default function dataServices() {
     getTransactions,
     addTransaction,
     getContacts,
+    getContactById,
     addContact,
     updateContact,
     deleteContact,
   };
 }
 
-const { getData } = dataServices();
+// const { getData } = dataServices();
 
-const d = await getData();
-console.log(d);
+// const d = await getData();
+// console.log(d);
+
 // console.log(await updateBalance(d, 2, await addTransaction(d, 2, -100)));
+
+// console.log(await deleteContact(d, 1, 2));
+
+// console.log(await deleteContact(d, 1, 2));
