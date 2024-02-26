@@ -45,7 +45,6 @@ export default function dataServices() {
       typeof password !== 'string'
     )
       throw new Error('Wrong argument types');
-
     const users = data.users.length;
     const newUser = {
       uid: users + 1,
@@ -107,8 +106,9 @@ export default function dataServices() {
   };
 
   // LOGIN
-  const userLogin = async (email, password) => {
+  const userLogin = async (data, email, password) => {
     if (
+      !data ||
       !email ||
       !password ||
       typeof email !== 'string' ||
@@ -116,9 +116,12 @@ export default function dataServices() {
     ) {
       throw new Error('Wrong argument types');
     }
-    const data = await getData();
     const user = await getUserByEmail(data, email);
-    user.password === password ? user : null;
+    if (user && user.password === password) {
+      return user;
+    } else {
+      throw new Error('Wrong credentials');
+    }
   };
 
   // BALANCE

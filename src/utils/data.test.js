@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import dataServices from './data.js';
 import fs from 'node:fs/promises';
 
@@ -25,13 +26,17 @@ jest.mock('node:fs/promises');
 
 const mockData = {
   users: [
-    { uid: 1, email: 'user1@test.com' },
-    { uid: 2, email: 'user2@test.com' },
+    { uid: 1, email: 'user1@test.com', password: 'password123' },
+    { uid: 2, email: 'user2@test.com', password: 'password456' },
   ],
 };
 
 beforeEach(() => {
   fs.readFile.mockReset();
+});
+
+beforeEach(() => {
+  fs.writeFile.mockReset();
 });
 
 describe('dataServices', () => {
@@ -84,7 +89,7 @@ describe('getUserById', () => {
     expect(() => getUserById()).toThrow('Wrong argument types');
   });
 
-  it('should throw error if user is not found', () => {
+  it('should throw error if user not found', () => {
     expect(() => getUserById(mockData, 3)).toThrow('Unable to find user');
   });
 });
@@ -98,15 +103,13 @@ describe('getUserByEmail', () => {
     expect(result).toEqual(mockData.users[0]);
   });
 
+  it('should throw error for invalid arguments', () => {
+    expect(() => getUserByEmail()).toThrow('Wrong argument types');
+  });
+
   it('should throw error if user not found', () => {
     expect(() => getUserByEmail(mockData, 'nonexistent@test.com')).toThrow(
       'Unable to find user'
-    );
-  });
-
-  it('should throw error for invalid arguments', () => {
-    expect(() => dataServices().getUserByEmail()).toThrow(
-      'Wrong argument types'
     );
   });
 });
@@ -115,17 +118,111 @@ describe('createUser', () => {
   it('should be a function', () => {
     expect(typeof createUser).toBe('function');
   });
+  it('should create a new user', async () => {
+    const newUser = await createUser(
+      mockData,
+      'Juan',
+      'Perez',
+      'juan@test.com',
+      'password123'
+    );
+    expect(newUser).toHaveProperty('uid');
+    expect(newUser.name).toBe('Juan');
+    expect(newUser.lastname).toBe('Perez');
+    expect(newUser.email).toBe('juan@test.com');
+    expect(newUser.password).toBe('password123');
+    expect(newUser.role).toBe('user');
+    expect(newUser.balance).toBe(0);
+    expect(newUser.transactions).toEqual([]);
+    expect(newUser.contacts).toEqual([]);
+  });
+
+  it('should throw an error for missing arguments', async () => {
+    await expect(createUser()).rejects.toThrow('Missing arguments');
+  });
+
+  it('should throw an error for invalid argument types', async () => {
+    await expect(
+      createUser(mockData, 'Juan', 'Perez', 'juan@test.com', 123456)
+    ).rejects.toThrow('Wrong argument types');
+  });
 });
 
 describe('updateUser', () => {
   it('should be a function', () => {
     expect(typeof updateUser).toBe('function');
   });
+  it('should update an existing user', async () => {
+    mockData.users.push({
+      uid: 4,
+      name: 'Pepito',
+      lastname: 'Palotes',
+      email: 'pepito@test.com',
+      password: 'password123',
+    });
+    const updatedUser = await updateUser(
+      mockData,
+      4,
+      'Pepito',
+      'Palotes',
+      'newpassword456'
+    );
+    expect(updatedUser).toHaveProperty('uid', 4);
+    expect(updatedUser.name).toBe('Pepito');
+    expect(updatedUser.lastname).toBe('Palotes');
+    expect(updatedUser.email).toBe('pepito@test.com');
+    expect(updatedUser.password).toBe('newpassword456');
+  });
+  it('should throw an error for invalid argument types', async () => {
+    await expect(
+      updateUser(mockData, 'Juan', 'Perez', 'juan@test.com', 123456)
+    ).rejects.toThrow('Id of type number is required');
+  });
 });
 
 describe('userLogin', () => {
   it('should be a function', () => {
     expect(typeof userLogin).toBe('function');
+  });
+  it('should login a user with correct credentials', async () => {
+    const loggedInUser = await userLogin(
+      mockData,
+      'user1@test.com',
+      'password123'
+    );
+    expect(loggedInUser).toEqual({
+      uid: 1,
+      email: 'user1@test.com',
+      password: 'password123',
+    });
+  });
+
+  it('should throw an error for incorrect credentials', async () => {
+    await expect(
+      userLogin(mockData, 'user1@test.com', 'wrongpassword')
+    ).rejects.toThrow('Wrong credentials');
+  });
+
+  it('should throw an error for wrong argument types', async () => {
+    fs.readFile.mockResolvedValue(JSON.stringify(mockData));
+    await expect(userLogin(mockData, null, 'password123')).rejects.toThrow(
+      'Wrong argument types'
+    );
+    await expect(userLogin(mockData, 'user@example.com', null)).rejects.toThrow(
+      'Wrong argument types'
+    );
+    await expect(userLogin(mockData, 123, 'password123')).rejects.toThrow(
+      'Wrong argument types'
+    );
+    await expect(userLogin(mockData, 'user@example.com', 123)).rejects.toThrow(
+      'Wrong argument types'
+    );
+  });
+
+  it('should throw an error if data is missing', async () => {
+    await expect(
+      userLogin(null, 'user@example.com', 'password123')
+    ).rejects.toThrow('Wrong argument types');
   });
 });
 
