@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import * as fs from 'node:fs/promises';
 
 export default function dataServices() {
@@ -65,35 +64,30 @@ export default function dataServices() {
       });
       return newUser;
     } catch (err) {
-      console.log('Unable to create user', err.message);
+      throw new Error(err);
     }
   };
 
-  const updateUser = async function (data, uid, name, lastname, password) {
+  const updateUser = async function (data, uid, options) {
     if (!data || !uid || typeof uid !== 'number')
       throw new Error('Id of type number is required');
 
     const user = getUserById(data, uid);
 
-    if (!user) throw new Error('No user was found');
-
     const updatedUser = {
       uid,
-      name: name || user.name,
-      lastname: lastname || user.lastname,
+      name: options.name || user.name,
+      lastname: options.lastname || user.lastname,
       email: user.email,
-      password: password || user.password,
+      password: options.password || user.password,
       role: user.role,
       balance: user.balance,
       transactions: user.transactions,
       contacts: user.contacts,
     };
-
     const userI = data.users.indexOf(user);
 
-    if (userI !== -1) {
-      data.users.splice(userI, 1, updatedUser);
-    }
+    data.users.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -101,7 +95,7 @@ export default function dataServices() {
       });
       return updatedUser;
     } catch (err) {
-      console.log('Unable to update user', err.message);
+      throw new Error(err);
     }
   };
 
@@ -128,13 +122,17 @@ export default function dataServices() {
   const getBalance = user => user.balance;
 
   const updateBalance = async (data, uid, transaction) => {
-    if (!data || !uid || !transaction || typeof uid !== 'number') {
+    if (
+      !data ||
+      !uid ||
+      !transaction ||
+      typeof uid !== 'number' ||
+      typeof transaction.amount !== 'number'
+    ) {
       throw new Error('Wrong argument types');
     }
 
     const user = getUserById(data, uid);
-
-    if (!user) throw new Error('No user was found');
 
     const newBalance = user.balance + transaction.amount;
 
@@ -152,9 +150,7 @@ export default function dataServices() {
 
     const userI = data.users.indexOf(user);
 
-    if (userI !== -1) {
-      data.users.splice(userI, 1, updatedUser);
-    }
+    data.users.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -162,12 +158,17 @@ export default function dataServices() {
       });
       return updatedUser.balance;
     } catch (err) {
-      console.log(err.message);
+      throw new Error(err);
     }
   };
 
   // TRANSACTIONS
-  const getTransactions = user => user.transactions;
+  const getTransactions = user => {
+    if (!user || !user.transactions) {
+      return [];
+    }
+    return user.transactions;
+  };
 
   const addTransaction = async (data, uid, amount) => {
     if (
@@ -181,8 +182,6 @@ export default function dataServices() {
     }
 
     const user = getUserById(data, uid);
-
-    if (!user) throw new Error('No user was found');
 
     const transactions = getTransactions(user);
     const newTransaction = {
@@ -207,9 +206,7 @@ export default function dataServices() {
 
     const userI = data.users.indexOf(user);
 
-    if (userI !== -1) {
-      data.users.splice(userI, 1, updatedUser);
-    }
+    data.users.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -217,12 +214,17 @@ export default function dataServices() {
       });
       return updatedUser.transactions[transactions.length - 1];
     } catch (err) {
-      console.log(err.message);
+      throw new Error(err);
     }
   };
 
   // CONTACTS
-  const getContacts = user => user.contacts;
+  const getContacts = user => {
+    if (!user || !user.contacts) {
+      return [];
+    }
+    return user.contacts;
+  };
 
   const getContactById = (data, uid, id) => {
     if (
@@ -236,14 +238,16 @@ export default function dataServices() {
     }
     const user = getUserById(data, uid);
 
-    if (!user) throw new Error('No user was found');
-
     const userI = data.users.indexOf(user);
 
-    try {
-      return data.users[userI].contacts.filter(contact => contact.id === id)[0];
-    } catch (e) {
-      throw new Error('Unable to find contact', e.message);
+    const contact = data.users[userI].contacts.find(
+      contact => contact.id === id
+    );
+
+    if (contact) {
+      return contact;
+    } else {
+      throw new Error('Unable to find contact');
     }
   };
 
@@ -252,8 +256,6 @@ export default function dataServices() {
       throw new Error('Wrong argument types');
     }
     const user = getUserById(data, uid);
-
-    if (!user) throw new Error('No user was found');
 
     const contacts = getContacts(user);
 
@@ -280,9 +282,7 @@ export default function dataServices() {
 
     const userI = data.users.indexOf(user);
 
-    if (userI !== -1) {
-      data.users.splice(userI, 1, updatedUser);
-    }
+    data.users.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -290,7 +290,7 @@ export default function dataServices() {
       });
       return updatedUser.contacts[contacts.length - 1];
     } catch (err) {
-      console.log(err.message);
+      throw new Error(err);
     }
   };
 
@@ -307,8 +307,6 @@ export default function dataServices() {
     }
     const user = getUserById(data, uid);
 
-    if (!user) throw new Error('No user was found');
-
     const contacts = getContacts(user);
     const contact = getContactById(data, uid, contactId);
     const contactI = contacts.indexOf(contact);
@@ -320,9 +318,7 @@ export default function dataServices() {
       email: options.email || contact.email,
     };
 
-    if (contactI !== -1) {
-      contacts.splice(contactI, 1, updatedContact);
-    }
+    contacts.splice(contactI, 1, updatedContact);
 
     const updatedUser = {
       uid,
@@ -338,9 +334,7 @@ export default function dataServices() {
 
     const userI = data.users.indexOf(user);
 
-    if (userI !== -1) {
-      data.users.splice(userI, 1, updatedUser);
-    }
+    data.users.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -348,7 +342,7 @@ export default function dataServices() {
       });
       return updatedUser.contacts[contactI];
     } catch (err) {
-      console.log(err.message);
+      throw new Error(err);
     }
   };
 
@@ -363,16 +357,11 @@ export default function dataServices() {
       throw new Error('Wrong argument types');
     }
     const user = getUserById(data, uid);
-
-    if (!user) throw new Error('No user was found');
-
     const contacts = getContacts(user);
     const contact = getContactById(data, uid, contactId);
     const contactI = contacts.indexOf(contact);
 
-    if (contactI !== -1) {
-      contacts.splice(contactI, 1);
-    }
+    contacts.splice(contactI, 1);
 
     const updatedUser = {
       uid,
@@ -388,9 +377,7 @@ export default function dataServices() {
 
     const userI = data.users.indexOf(user);
 
-    if (userI !== -1) {
-      data.users.splice(userI, 1, updatedUser);
-    }
+    data.users.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -398,7 +385,7 @@ export default function dataServices() {
       });
       return updatedUser.contacts;
     } catch (err) {
-      console.log(err.message);
+      throw new Error(err);
     }
   };
 
@@ -422,14 +409,3 @@ export default function dataServices() {
     deleteContact,
   };
 }
-
-// const { getData } = dataServices();
-
-// const d = await getData();
-// console.log(d);
-
-// console.log(await updateBalance(d, 2, await addTransaction(d, 2, -100)));
-
-// console.log(await deleteContact(d, 1, 2));
-
-// console.log(await deleteContact(d, 1, 2));
