@@ -16,7 +16,7 @@ const routes = {
   '/transactions': Transactions,
 };
 
-export const onNavigate = pathname => {
+const onNavigate = pathname => {
   window.history.pushState({}, pathname, window.location.origin + pathname);
   while (rootDiv.firstChild) {
     rootDiv.removeChild(rootDiv.firstChild);
