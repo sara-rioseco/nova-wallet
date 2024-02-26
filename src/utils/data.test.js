@@ -39,7 +39,12 @@ const mockData = {
       password: 'password456',
       balance: 200,
       contacts: [
-        { id: 1, name: 'John', lastname: 'Doe', email: 'john@example.com' },
+        {
+          id: 1,
+          name: 'Juanito',
+          lastname: 'Gonzalez',
+          email: 'juanito@test.com',
+        },
       ],
     },
   ],
@@ -228,20 +233,20 @@ describe('dataServices', () => {
       await expect(userLogin(mockData, null, 'password123')).rejects.toThrow(
         'Wrong argument types'
       );
-      await expect(
-        userLogin(mockData, 'user@example.com', null)
-      ).rejects.toThrow('Wrong argument types');
+      await expect(userLogin(mockData, 'user@test.com', null)).rejects.toThrow(
+        'Wrong argument types'
+      );
       await expect(userLogin(mockData, 123, 'password123')).rejects.toThrow(
         'Wrong argument types'
       );
-      await expect(
-        userLogin(mockData, 'user@example.com', 123)
-      ).rejects.toThrow('Wrong argument types');
+      await expect(userLogin(mockData, 'user@test.com', 123)).rejects.toThrow(
+        'Wrong argument types'
+      );
     });
 
     it('should throw an error if data is missing', async () => {
       await expect(
-        userLogin(null, 'user@example.com', 'password123')
+        userLogin(null, 'user@test.com', 'password123')
       ).rejects.toThrow('Wrong argument types');
     });
   });
@@ -354,12 +359,22 @@ describe('dataServices', () => {
       const user = {
         uid: 1,
         contacts: [
-          { id: 1, name: 'John', lastname: 'Doe', email: 'john@example.com' },
+          {
+            id: 1,
+            name: 'Juanito',
+            lastname: 'Gonzalez',
+            email: 'juanito@test.com',
+          },
         ],
       };
       const contacts = getContacts(user);
       expect(contacts).toEqual([
-        { id: 1, name: 'John', lastname: 'Doe', email: 'john@example.com' },
+        {
+          id: 1,
+          name: 'Juanito',
+          lastname: 'Gonzalez',
+          email: 'juanito@test.com',
+        },
       ]);
     });
     it('should return empty array if no contacts', () => {
@@ -373,9 +388,9 @@ describe('dataServices', () => {
       const contact = getContactById(mockData, 2, 1);
       expect(contact).toEqual({
         id: 1,
-        name: 'John',
-        lastname: 'Doe',
-        email: 'john@example.com',
+        name: 'Juanito',
+        lastname: 'Gonzalez',
+        email: 'juanito@test.com',
       });
     });
 
@@ -400,15 +415,15 @@ describe('dataServices', () => {
     it('should add a contact for a user', async () => {
       fs.writeFile.mockResolvedValue();
       const newContact = await addContact(mockData, 1, {
-        name: 'Jane',
-        lastname: 'Doe',
-        email: 'jane@example.com',
+        name: 'Maria',
+        lastname: 'Gonzalez',
+        email: 'maria@test.com',
       });
       expect(newContact).toEqual({
         id: 1,
-        name: 'Jane',
-        lastname: 'Doe',
-        email: 'jane@example.com',
+        name: 'Maria',
+        lastname: 'Gonzalez',
+        email: 'maria@test.com',
       });
     });
     it('should spread error if fs.writeFile is rejected', async () => {
@@ -424,9 +439,9 @@ describe('dataServices', () => {
     it('should throw an error for incorrect user id', async () => {
       await expect(
         addContact(mockData, 9, {
-          name: 'Jane',
-          lastname: 'Doe',
-          email: 'jane@example.com',
+          name: 'Maria',
+          lastname: 'Gonzalez',
+          email: 'maria@test.com',
         })
       ).rejects.toThrow('Unable to find user');
     });
@@ -436,14 +451,14 @@ describe('dataServices', () => {
     it('should update a contact for a user', async () => {
       fs.writeFile.mockResolvedValue();
       const updatedContact = await updateContact(mockData, 1, 1, {
-        lastname: 'Doe',
-        email: 'jane@example.com',
+        lastname: 'Gonzalez',
+        email: 'maria@test.com',
       });
       expect(updatedContact).toEqual({
         id: 1,
-        name: 'Jane',
-        lastname: 'Doe',
-        email: 'jane@example.com',
+        name: 'Maria',
+        lastname: 'Gonzalez',
+        email: 'maria@test.com',
       });
     });
     it('should spread error if fs.writeFile is rejected', async () => {
@@ -459,9 +474,9 @@ describe('dataServices', () => {
     it('should throw an error for incorrect user id', async () => {
       await expect(
         updateContact(mockData, 10, 1, {
-          name: 'Jane',
-          lastname: 'Doe',
-          email: 'jane@example.com',
+          name: 'Maria',
+          lastname: 'Gonzalez',
+          email: 'maria@test.com',
         })
       ).rejects.toThrow('Unable to find user');
     });
