@@ -56,11 +56,16 @@ export const header = onNavigate => {
   transactionsLi.textContent = 'Transactions';
   signoutLi.textContent = 'Logout';
 
-  homeLi.addEventListener('click', () => onNavigate('/home'));
-  depositLi.addEventListener('click', () => onNavigate('/deposit'));
-  transferLi.addEventListener('click', () => onNavigate('/transfer'));
-  transactionsLi.addEventListener('click', () => onNavigate('/transactions'));
-  signoutLi.addEventListener('click', () => onNavigate('/'));
+  title.addEventListener('click', () => onNavigate('/nova-wallet/home'));
+  homeLi.addEventListener('click', () => onNavigate('/nova-wallet/home'));
+  depositLi.addEventListener('click', () => onNavigate('/nova-wallet/deposit'));
+  transferLi.addEventListener('click', () =>
+    onNavigate('/nova-wallet/transfer')
+  );
+  transactionsLi.addEventListener('click', () =>
+    onNavigate('/nova-wallet/transactions')
+  );
+  signoutLi.addEventListener('click', () => onNavigate('/nova-wallet/'));
 
   bttn.addEventListener('click', () => {
     const isOpened = bttn.getAttribute('aria-expanded') === 'true';

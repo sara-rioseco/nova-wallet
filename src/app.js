@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Login from './pages/login.js';
 import SignUp from './pages/signup.js';
 import Home from './pages/home.js';
@@ -8,15 +9,25 @@ import Transactions from './pages/transactions.js';
 const rootDiv = document.getElementById('root');
 
 const routes = {
-  '/': Login,
-  '/signup': SignUp,
-  '/home': Home,
-  '/deposit': Deposit,
-  '/transfer': Transfer,
-  '/transactions': Transactions,
+  // '/': Login,
+  // '/signup': SignUp,
+  // '/home': Home,
+  // '/deposit': Deposit,
+  // '/transfer': Transfer,
+  // '/transactions': Transactions,
+  '/nova-wallet/': Login,
+  '/nova-wallet/signup': SignUp,
+  '/nova-wallet/home': Home,
+  '/nova-wallet/deposit': Deposit,
+  '/nova-wallet/transfer': Transfer,
+  '/nova-wallet/transactions': Transactions,
 };
 
 const onNavigate = pathname => {
+  console.log('pathname: ', pathname);
+  console.log('window.loc.pathname: ', window.location.pathname);
+  console.log('window.loc.origin: ', window.location.origin);
+  console.log('win.loc', window.location);
   window.history.pushState({}, pathname, window.location.origin + pathname);
   while (rootDiv.firstChild) {
     rootDiv.removeChild(rootDiv.firstChild);
@@ -28,6 +39,10 @@ window.onpopstate = () => {
   while (rootDiv.firstChild) {
     rootDiv.removeChild(rootDiv.firstChild);
   }
-  rootDiv.appendChild(routes[window.location.pathname](onNavigate));
+  rootDiv.appendChild(routes[`${window.location.pathname}`](onNavigate));
 };
-rootDiv.appendChild(routes[window.location.pathname](onNavigate));
+rootDiv.appendChild(routes[`${window.location.pathname}`](onNavigate));
+
+window.addEventListener('load', () =>
+  console.log(window.location.pathname, window.location, window.history)
+);
