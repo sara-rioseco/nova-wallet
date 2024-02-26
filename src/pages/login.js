@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { button } from '../components/button.js';
 import { input } from '../components/input.js';
 
@@ -28,11 +29,11 @@ export default function Login(onNavigate) {
     const email = document.getElementById('login-email').value;
     const password = document.getElementById('login-password').value;
     console.log(`logueando a ${email} con ${password}`);
-    onNavigate('/home');
+    onNavigate('/nova-wallet/home');
   });
 
   signUpTextSpan.addEventListener('click', () => {
-    onNavigate('/signup');
+    onNavigate('/nova-wallet/signup');
   });
 
   title.appendChild(titleSpan);

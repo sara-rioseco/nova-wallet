@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { button } from '../components/button.js';
 import { input } from '../components/input.js';
 
@@ -30,11 +31,11 @@ export default function SignUp(onNavigate) {
     const name = document.getElementById('signup-name').value;
     const lastname = document.getElementById('signup-lastname').value;
     console.log(`registrando a ${name} ${lastname}`);
-    onNavigate('/home');
+    onNavigate('/nova-wallet/home');
   });
 
   loginTextSpan.addEventListener('click', () => {
-    onNavigate('/');
+    onNavigate('/nova-wallet/');
   });
 
   title.appendChild(titleSpan);
