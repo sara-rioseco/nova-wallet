@@ -16,4 +16,3 @@ unit-test:
       with:
         node-version: 20
     - run: npm install && npm run test
-6
