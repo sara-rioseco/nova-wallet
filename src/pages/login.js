@@ -25,10 +25,10 @@ export default function Login(onNavigate) {
   signUpText.textContent = "Don't have an account?\n";
   signUpTextSpan.textContent = 'Sign up here.';
 
-  loginButton.addEventListener('click', () => {
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
-    console.log(`logueando a ${email} con ${password}`);
+  loginButton.addEventListener('click', e => {
+    e.preventDefault();
+    // const email = document.getElementById('login-email').value;
+    // const password = document.getElementById('login-password').value;
     onNavigate('/nova-wallet/home');
   });
 

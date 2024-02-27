@@ -27,10 +27,10 @@ export default function SignUp(onNavigate) {
   loginText.textContent = 'Already have an account?\n';
   loginTextSpan.textContent = 'Login here.';
 
-  signUpButton.addEventListener('click', () => {
-    const name = document.getElementById('signup-name').value;
-    const lastname = document.getElementById('signup-lastname').value;
-    console.log(`registrando a ${name} ${lastname}`);
+  signUpButton.addEventListener('click', e => {
+    e.preventDefault();
+    // const name = document.getElementById('signup-name').value;
+    // const lastname = document.getElementById('signup-lastname').value;
     onNavigate('/nova-wallet/home');
   });
 

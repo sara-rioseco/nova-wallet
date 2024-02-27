@@ -266,7 +266,7 @@ p.signup-text>span {
   background: radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
   border-radius: 32px;
   width: min(900px, 90vw);
-  min-height: 600px;
+  min-height: 500px;
   flex: 1 1 auto;
   position: fixed;
   top: 50%;
@@ -611,6 +611,5 @@ header::after {
   .transfer-content-wrapper,
   .transactions-content-wrapper {
     min-width: 700px;
-    min-height: 500px;
   }
 }

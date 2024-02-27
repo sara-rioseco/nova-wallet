@@ -24,10 +24,6 @@ const routes = {
 };
 
 const onNavigate = pathname => {
-  console.log('pathname: ', pathname);
-  console.log('window.loc.pathname: ', window.location.pathname);
-  console.log('window.loc.origin: ', window.location.origin);
-  console.log('win.loc', window.location);
   window.history.pushState({}, pathname, window.location.origin + pathname);
   while (rootDiv.firstChild) {
     rootDiv.removeChild(rootDiv.firstChild);
@@ -42,7 +38,3 @@ window.onpopstate = () => {
   rootDiv.appendChild(routes[`${window.location.pathname}`](onNavigate));
 };
 rootDiv.appendChild(routes[`${window.location.pathname}`](onNavigate));
-
-window.addEventListener('load', () =>
-  console.log(window.location.pathname, window.location, window.history)
-);
