@@ -9,12 +9,6 @@ import Transactions from './pages/transactions.js';
 const rootDiv = document.getElementById('root');
 
 const routes = {
-  // '/': Login,
-  // '/signup': SignUp,
-  // '/home': Home,
-  // '/deposit': Deposit,
-  // '/transfer': Transfer,
-  // '/transactions': Transactions,
   '/nova-wallet/': Login,
   '/nova-wallet/signup': SignUp,
   '/nova-wallet/home': Home,

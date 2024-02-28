@@ -487,15 +487,6 @@ header::after {
   cursor: pointer;
 }
 
-.site-nav--icon {
-  display: inline-block;
-  font-size: 1.5em;
-  margin-right: 1em;
-  width: 1.1em;
-  text-align: right;
-  color: rgba(255, 255, 255, 0.4);
-}
-
 .menu-toggle {
   padding: 1em;
   background: transparent;
@@ -559,6 +550,36 @@ header::after {
   width: 1px;
 }
 
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: var(--fs-600);
+  color: var(--clr-primary-200);
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-home:before {
+  content: "\f015"
+}
+
+.fa-credit-card:before {
+  content: "\f09d"
+}
+
+.fa-exchange:before {
+  content: "\f0ec"
+}
+
+.fa-history:before {
+  content: "\f1da"
+}
+
+.fa-sign-out:before {
+  content: "\f08b"
+}
+
 @media (min-width: 750px) {
   header {
     position: fixed;
@@ -588,8 +609,7 @@ header::after {
     align-items: center;
   }
 
-  .menu-toggle,
-  .fa.fa {
+  .menu-toggle {
     display: none;
   }
 

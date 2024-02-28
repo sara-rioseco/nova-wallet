@@ -14,11 +14,6 @@ export const header = onNavigate => {
   const transferLi = document.createElement('li');
   const transactionsLi = document.createElement('li');
   const signoutLi = document.createElement('li');
-  const homeI = document.createElement('i');
-  const depositI = document.createElement('i');
-  const transferI = document.createElement('i');
-  const transactionsI = document.createElement('i');
-  const signoutI = document.createElement('i');
 
   headerContainer.classList.add('header-container');
   title.classList.add('logo');
@@ -39,17 +34,7 @@ export const header = onNavigate => {
   list.classList.add('primary-navigation');
   list.id = 'primary-navigation';
   list.setAttribute('data-state', 'closed');
-  homeI.classList.add('fa', 'fa-home', 'site-nav--icon');
-  depositI.classList.add('fa', 'fa-credit-card', 'site-nav--icon');
-  transferI.classList.add('fa', 'fa-exchange', 'site-nav--icon');
-  transactionsI.classList.add('fa', 'fa-history', 'site-nav--icon');
-  signoutI.classList.add('fa', 'fa-signout', 'site-nav--icon');
 
-  homeLi.appendChild(homeI);
-  depositLi.appendChild(depositI);
-  transferLi.appendChild(transferI);
-  transactionsLi.appendChild(transactionsI);
-  signoutLi.appendChild(signoutI);
   homeLi.textContent = 'Home';
   depositLi.textContent = 'Deposit';
   transferLi.textContent = 'Send Money';
