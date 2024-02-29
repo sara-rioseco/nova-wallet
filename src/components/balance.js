@@ -7,8 +7,8 @@ export const balance = amount => {
   title.classList.add('balance-title');
   subtitle.classList.add('balance-subtitle');
 
-  title.textContent = 'Your balance is:';
-  subtitle.textContent = `US$ ${amount.toLocaleString('en-US', {
+  title.textContent = 'your balance is:';
+  subtitle.textContent = `USD ${amount.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
   })}`;

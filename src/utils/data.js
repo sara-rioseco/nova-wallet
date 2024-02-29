@@ -1,11 +1,45 @@
 import * as fs from 'node:fs/promises';
 
 export default function dataServices() {
-  const dataUrl = './src/db/db.json';
+  const dataUrl = '../db/db.json';
+  // const dataUrl = 'http://localhost:3000/users'; For use with JSON SERVER
+
   // DATA
-  const getData = async function () {
-    const data = await fs.readFile(dataUrl, { encoding: 'utf8' });
-    return JSON.parse(data);
+  const getData = async function (url) {
+    // ------------------ con fetch --------------------
+
+    try {
+      const response = await fetch(url, {
+        credentials: 'include',
+      });
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      throw new Error(e);
+    }
+
+    // ----------------- con NODE FS --------------------
+
+    // const data = await fs.readFile(dataUrl, { encoding: 'utf8' });
+    // return JSON.parse(data);
+
+    // ------------- con JSON SERVER y fetch ------------
+    // try {
+    //   const response = await fetch(url, {
+    //     method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    //     mode: 'cors', // no-cors, *cors, same-origin
+    //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    //     credentials: 'same-origin', // include, *same-origin, omit
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     redirect: 'follow', // manual, *follow, error
+    //     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    //   });
+    //   return response.json();
+    // } catch (e) {
+    //   throw new Error(e);
+    // }
   };
 
   // USERS
@@ -15,7 +49,7 @@ export default function dataServices() {
     if (!data || !uid || typeof uid !== 'number') {
       throw new Error('Wrong argument types');
     }
-    const user = data.users.find(user => user.uid === uid);
+    const user = data.users.find(user => user.id === uid);
     if (!user) {
       throw new Error('Unable to find user');
     }
