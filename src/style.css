@@ -164,7 +164,6 @@ body::before {
 }
 
 .root {
-  /* width: min(60rem, 100% - 2rem); */
   width: 100vw;
   min-height: 100vh;
   margin-inline: auto;
@@ -200,7 +199,6 @@ div.root::before {
 h1 {
   letter-spacing: 8px;
   font-weight: 500;
-  margin-block: 15px;
   text-shadow: 0 3px 3px var(--clr-transp-500);
   font-size: var(--fs-600);
 }
@@ -250,7 +248,7 @@ p.signup-text>span {
 }
 
 .signup-content-wrapper {
-  gap: 6.6px;
+  gap: 1em;
 }
 
 .home-wrapper,
@@ -338,32 +336,21 @@ p.signup-text>span {
   align-self: center;
 }
 
-.home-left>:nth-child(3) {
-  grid-column-start: 2;
-  grid-column-end: 3;
-  place-self: start;
-}
-
-.home-left>:nth-child(4) {
-  grid-column-start: 3;
-  grid-column-end: 4;
-  place-self: end;
-}
-
+.home-left>:nth-child(3),
 .home-left>:nth-child(5) {
   grid-column-start: 2;
   grid-column-end: 3;
   place-self: start;
 }
 
+.home-left>:nth-child(4),
 .home-left>:nth-child(6) {
   grid-column-start: 3;
   grid-column-end: 4;
   place-self: end;
 }
 
-.home-left>.icon-button:hover,
-.home-left>.icon-button:focus-visible {
+.home-left>.icon-button:is(:hover, :focus-visible) {
   background-color: var(--clr-primary-500);
   box-shadow: 0 3px 3px 0 var(--clr-transp-600);
   color: var(--clr-primary-100);
@@ -426,8 +413,7 @@ button {
   box-shadow: 0 3px 3px 0 var(--clr-transp-500);
 }
 
-button:hover,
-button:focus-visible {
+button:is(:hover, :focus-visible) {
   background-color: var(--clr-primary-400);
   box-shadow: 0 3px 3px 0 var(--clr-transp-600);
   color: var(--clr-primary-100);
@@ -495,9 +481,9 @@ button:active {
   color: var(--clr-primary-400);
   background-color: var(--clr-primary-100);
   background: var(--clr-primary-100);
-  background: -moz-linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
-  background: -webkit-linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
-  background: linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
+  background: -moz-linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%, var(--clr-primary-100) 40%, var(--clr-transp-100) 65%);
+  background: -webkit-linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%, var(--clr-primary-100) 40%, var(--clr-transp-100) 65%);
+  background: linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%, var(--clr-primary-100) 40%, var(--clr-transp-100) 65%);
 }
 
 .input-label {

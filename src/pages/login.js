@@ -28,10 +28,10 @@ export default function Login(onNavigate) {
   signUpText.textContent = "Don't have an account?\n";
   signUpTextSpan.textContent = 'Sign up here.';
 
-  loginButton.addEventListener('click', async e => {
+  $(loginButton).click(async e => {
     e.preventDefault();
-    const email = document.getElementById('login-email').value;
-    const password = document.getElementById('login-password').value;
+    const email = $('#login-email').val();
+    const password = $('#login-password').val();
     try {
       const data = await getData(dataUrl);
       const user = await userLogin(data, email, password);
@@ -47,19 +47,19 @@ export default function Login(onNavigate) {
     }
   });
 
-  signUpTextSpan.addEventListener('click', () => {
+  $(signUpTextSpan).click(() => {
     onNavigate('/nova-wallet/signup');
   });
 
-  title.appendChild(titleSpan);
-  signUpText.appendChild(signUpTextSpan);
-  content.appendChild(title);
-  content.appendChild(username);
-  content.appendChild(email);
-  content.appendChild(password);
-  content.appendChild(loginButton);
-  content.appendChild(signUpText);
-  wrapper.appendChild(content);
+  $(title).append(titleSpan);
+  $(signUpText).append(signUpTextSpan);
+  $(content).append(title);
+  $(content).append(username);
+  $(content).append(email);
+  $(content).append(password);
+  $(content).append(loginButton);
+  $(content).append(signUpText);
+  $(wrapper).append(content);
 
   return wrapper;
 }

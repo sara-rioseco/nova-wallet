@@ -18,12 +18,12 @@ export default function dataServices() {
       throw new Error(e);
     }
 
-    // ----------------- con NODE FS --------------------
+    // ----------------- with NODE FS --------------------
 
     // const data = await fs.readFile(dataUrl, { encoding: 'utf8' });
     // return JSON.parse(data);
 
-    // ------------- con JSON SERVER y fetch ------------
+    // ------------- with JSON SERVER & fetch ------------
     // try {
     //   const response = await fetch(url, {
     //     method: 'GET', // *GET, POST, PUT, DELETE, etc.
