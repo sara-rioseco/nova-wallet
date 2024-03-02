@@ -5,11 +5,11 @@ export default function dataServices() {
   // const dataUrl = 'http://localhost:3000/users'; For use with JSON SERVER
 
   // DATA
-  const getData = async function (url) {
+  const getData = async function () {
     // ------------------ con fetch --------------------
 
     try {
-      const response = await fetch(url, {
+      const response = await fetch(dataUrl, {
         credentials: 'include',
       });
       const data = await response.json();
@@ -49,7 +49,7 @@ export default function dataServices() {
     if (!data || !uid || typeof uid !== 'number') {
       throw new Error('Wrong argument types');
     }
-    const user = data.users.find(user => user.uid === uid);
+    const user = data.users.find(user => user.id === uid);
     if (!user) {
       throw new Error('Unable to find user');
     }
@@ -443,3 +443,6 @@ export default function dataServices() {
     deleteContact,
   };
 }
+
+const { getData } = dataServices();
+console.log(await getData());

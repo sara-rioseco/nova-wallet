@@ -12,7 +12,7 @@ const data = await getData(dataUrl);
 
 export default function Home(onNavigate) {
   const uid = localStorage.getItem('uid');
-  const user = getUserById(data, +uid);
+  const user = getUserById(data, Number(uid));
   const transactions = getTransactions(user);
   const wrapper = document.createElement('div');
   const content = document.createElement('main');
