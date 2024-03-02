@@ -3,31 +3,30 @@ import * as fs from 'node:fs/promises';
 export default function dataServices() {
   // const dataUrl = 'https://json-server-gamma-brown.vercel.app/users';
   // const dataUrl = 'http://localhost:3000/users'; For use with JSON SERVER
-  const dataUrl = './src/db/db.json';
-  // const dataUrl = '../db/db.json';
+  // const dataUrl = 'src/db/db.json';
+  const dataUrl = '../db/db.json';
 
   // DATA
   const getData = async function () {
     // ------------------ with fetch --------------------
 
-    // try {
-    //   const response = await fetch(dataUrl, {
-    //     credentials: 'include',
-    //   });
-    //   const data = await response.json();
-    //   return data;
-    // } catch (e) {
-    //   throw new Error(e);
-    // }
+    try {
+      const response = await fetch(dataUrl, {
+        credentials: 'include',
+      });
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      throw new Error(e);
+    }
 
     // ----------------- with NODE FS --------------------
 
-    try {
-      const data = JSON.parse(await fs.readFile(dataUrl, 'utf8'));
-      return data;
-    } catch (e) {
-      throw new Error(e.message);
-    }
+    // try {
+    //   return JSON.parse(await fs.readFile(dataUrl, 'utf8'));
+    // } catch (e) {
+    //   throw new Error(e.message);
+    // }
 
     // ------------- with JSON SERVER & fetch ------------
     // try {
@@ -472,4 +471,5 @@ export default function dataServices() {
 
 const { getData } = dataServices();
 
-console.log(await getData());
+const data = await getData();
+console.log(data);
