@@ -12,10 +12,8 @@ export default function Deposit(onNavigate) {
   wrapper.className = 'deposit-wrapper';
   content.className = 'deposit-content-wrapper';
 
-  content.appendChild(title);
-  wrapper.appendChild(nav);
-  wrapper.appendChild(content);
-  wrapper.appendChild(foot);
+  content.append(title);
+  wrapper.append(nav, content, foot);
 
   return wrapper;
 }

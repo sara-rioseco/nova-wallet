@@ -12,10 +12,8 @@ export default function Transfer(onNavigate) {
   wrapper.className = 'transfer-wrapper';
   content.className = 'transfer-content-wrapper';
 
-  content.appendChild(title);
-  wrapper.appendChild(nav);
-  wrapper.appendChild(content);
-  wrapper.appendChild(foot);
+  content.append(title);
+  wrapper.append(nav, content, foot);
 
   return wrapper;
 }

@@ -3,7 +3,7 @@ import { button } from '../components/button.js';
 import { input } from '../components/input.js';
 import dataServices from '../utils/data.js';
 
-const { dataUrl, getData, userLogin } = dataServices();
+const { getData, userLogin } = dataServices();
 
 export default function Login(onNavigate) {
   const wrapper = document.createElement('div');
@@ -33,7 +33,7 @@ export default function Login(onNavigate) {
     const email = $('#login-email').val();
     const password = $('#login-password').val();
     try {
-      const data = await getData(dataUrl);
+      const data = await getData();
       const user = await userLogin(data, email, password);
       localStorage.setItem('uid', user.id);
       localStorage.setItem('name', user.name);
@@ -51,15 +51,10 @@ export default function Login(onNavigate) {
     onNavigate('/nova-wallet/signup');
   });
 
-  $(title).append(titleSpan);
-  $(signUpText).append(signUpTextSpan);
-  $(content).append(title);
-  $(content).append(username);
-  $(content).append(email);
-  $(content).append(password);
-  $(content).append(loginButton);
-  $(content).append(signUpText);
-  $(wrapper).append(content);
+  title.append(titleSpan);
+  signUpText.append(signUpTextSpan);
+  content.append(title, username, email, password, loginButton, signUpText);
+  wrapper.append(content);
 
   return wrapper;
 }
