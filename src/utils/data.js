@@ -1,51 +1,11 @@
 import * as fs from 'node:fs/promises';
 
 export default function dataServices() {
-  // const dataUrl = 'https://json-server-gamma-brown.vercel.app/users';
-  // const dataUrl = 'http://localhost:3000/users'; For use with JSON SERVER
-  // const dataUrl = 'src/db/db.json';
-  const dataUrl = '../db/db.json';
-
+  const dataUrl = './src/db/db.json';
   // DATA
   const getData = async function () {
-    // ------------------ with fetch --------------------
-
-    try {
-      const response = await fetch(dataUrl, {
-        credentials: 'include',
-      });
-      const data = await response.json();
-      return data;
-    } catch (e) {
-      throw new Error(e);
-    }
-
-    // ----------------- with NODE FS --------------------
-
-    // try {
-    //   return JSON.parse(await fs.readFile(dataUrl, 'utf8'));
-    // } catch (e) {
-    //   throw new Error(e.message);
-    // }
-
-    // ------------- with JSON SERVER & fetch ------------
-    // try {
-    //   const response = await fetch(url, {
-    //     method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    //     mode: 'cors', // no-cors, *cors, same-origin
-    //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    //     credentials: 'same-origin', // include, *same-origin, omit
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     redirect: 'follow', // manual, *follow, error
-    //     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    //   });
-    //   const res = await response.json();
-    //   return res;
-    // } catch (e) {
-    //   throw new Error(e);
-    // }
+    const data = await fs.readFile(dataUrl, { encoding: 'utf8' });
+    return JSON.parse(data);
   };
 
   // USERS
@@ -55,7 +15,7 @@ export default function dataServices() {
     if (!data || !uid || typeof uid !== 'number') {
       throw new Error('Wrong argument types');
     }
-    const user = data.users.find(user => user.id === uid);
+    const user = data.users.find(user => user.uid === uid);
     if (!user) {
       throw new Error('Unable to find user');
     }

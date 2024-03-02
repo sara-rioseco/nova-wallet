@@ -1,6 +1,6 @@
 import { utils } from './utils.js';
 
-const { arePasswordsEqual, isPasswordValid, isEmailValid, cap } = utils();
+const { arePasswordsEqual, isPasswordValid, isEmailValid } = utils();
 
 describe('Utils', () => {
   describe('arePasswordsEqual', () => {
@@ -29,16 +29,6 @@ describe('Utils', () => {
 
     test('returns false for an invalid email', () => {
       expect(isEmailValid('invalidemail')).toBe(false);
-    });
-  });
-
-  describe('cap', () => {
-    test('returns "Capitalized" for "capitalized"', () => {
-      expect(cap('capitalized')).toBe('Capitalized');
-    });
-
-    test('returns null for invalid argument', () => {
-      expect(cap(123)).toBe(null);
     });
   });
 });

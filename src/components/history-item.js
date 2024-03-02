@@ -1,5 +1,3 @@
-import { utils } from '../utils/utils';
-
 export const historyItem = transaction => {
   const wrapper = document.createElement('div');
   const title = document.createElement('div');
@@ -11,19 +9,16 @@ export const historyItem = transaction => {
   title.classList.add('history-item-title');
   subtitle.classList.add('history-item-subtitle');
 
-  type.textContent = `${utils().cap(transaction.type)}`;
-  amount.textContent = `US$ ${transaction.amount.toLocaleString('en-US', {
+  type.textContent = `${transaction.type}`;
+  amount.textContent = `US$ ${amount.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
   })}`;
-  subtitle.textContent = `${new Date(transaction.date).toLocaleDateString(
-    'en-US',
-    {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }
-  )}`;
+  subtitle.textContent = `${transaction.date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })}`;
 
   title.appendChild(type);
   title.appendChild(amount);

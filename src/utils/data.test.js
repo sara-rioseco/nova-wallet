@@ -58,12 +58,6 @@ beforeEach(() => {
   fs.writeFile.mockReset();
 });
 
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve(mockData),
-  })
-);
-
 describe('dataServices', () => {
   describe('dataUrl', () => {
     it('should be a string', () => {
@@ -79,7 +73,6 @@ describe('dataServices', () => {
     });
     it('should handle errors when reading file', async () => {
       fs.readFile.mockRejectedValue(new Error('File read error'));
-      fetch.mockRejectedValue(new Error('File read error'));
       await expect(getData()).rejects.toThrow('File read error');
     });
   });
