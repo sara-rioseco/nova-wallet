@@ -80,7 +80,7 @@ export default function dataServices() {
       throw new Error('Wrong argument types');
     const users = data.users.length;
     const newUser = {
-      uid: users + 1,
+      id: users + 1,
       name,
       lastname,
       email,
@@ -109,7 +109,7 @@ export default function dataServices() {
     const user = getUserById(data, uid);
 
     const updatedUser = {
-      uid,
+      id: uid,
       name: options.name || user.name,
       lastname: options.lastname || user.lastname,
       email: user.email,
@@ -171,7 +171,7 @@ export default function dataServices() {
     const newBalance = user.balance + transaction.amount;
 
     const updatedUser = {
-      uid,
+      id: uid,
       name: user.name,
       lastname: user.lastname,
       email: user.email,
@@ -227,7 +227,7 @@ export default function dataServices() {
     transactions.push(newTransaction);
 
     const updatedUser = {
-      uid,
+      id: uid,
       name: user.name,
       lastname: user.lastname,
       email: user.email,
@@ -303,7 +303,7 @@ export default function dataServices() {
     contacts.push(newContact);
 
     const updatedUser = {
-      uid,
+      id: uid,
       name: user.name,
       lastname: user.lastname,
       email: user.email,
@@ -355,7 +355,7 @@ export default function dataServices() {
     contacts.splice(contactI, 1, updatedContact);
 
     const updatedUser = {
-      uid,
+      id: uid,
       name: user.name,
       lastname: user.lastname,
       email: user.email,
@@ -398,7 +398,7 @@ export default function dataServices() {
     contacts.splice(contactI, 1);
 
     const updatedUser = {
-      uid,
+      id: uid,
       name: user.name,
       lastname: user.lastname,
       email: user.email,
@@ -443,6 +443,3 @@ export default function dataServices() {
     deleteContact,
   };
 }
-
-const { getData } = dataServices();
-console.log(await getData());

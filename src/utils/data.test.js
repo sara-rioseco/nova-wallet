@@ -27,14 +27,14 @@ jest.mock('node:fs/promises');
 const mockData = {
   users: [
     {
-      uid: 1,
+      id: 1,
       email: 'user1@test.com',
       password: 'password123',
       balance: 100,
       contacts: [],
     },
     {
-      uid: 2,
+      id: 2,
       email: 'user2@test.com',
       password: 'password456',
       balance: 200,
@@ -58,6 +58,12 @@ beforeEach(() => {
   fs.writeFile.mockReset();
 });
 
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(mockData),
+  })
+);
+
 describe('dataServices', () => {
   describe('dataUrl', () => {
     it('should be a string', () => {
@@ -73,6 +79,7 @@ describe('dataServices', () => {
     });
     it('should handle errors when reading file', async () => {
       fs.readFile.mockRejectedValue(new Error('File read error'));
+      fetch.mockRejectedValue(new Error('File read error'));
       await expect(getData()).rejects.toThrow('File read error');
     });
   });
@@ -125,7 +132,7 @@ describe('dataServices', () => {
         'juan@test.com',
         'password123'
       );
-      expect(newUser).toHaveProperty('uid');
+      expect(newUser).toHaveProperty('id');
       expect(newUser.name).toBe('Juan');
       expect(newUser.lastname).toBe('Perez');
       expect(newUser.email).toBe('juan@test.com');
@@ -161,14 +168,14 @@ describe('dataServices', () => {
   describe('updateUser', () => {
     it("should update an existing user's name", async () => {
       mockData.users.push({
-        uid: 7,
+        id: 7,
         name: 'Pepito',
         lastname: 'Palotes',
         email: 'pepito@test.com',
         password: 'password123',
       });
       const updatedUser = await updateUser(mockData, 7, { name: 'Juanito' });
-      expect(updatedUser).toHaveProperty('uid', 7);
+      expect(updatedUser).toHaveProperty('id', 7);
       expect(updatedUser.name).toBe('Juanito');
       expect(updatedUser.lastname).toBe('Palotes');
       expect(updatedUser.email).toBe('pepito@test.com');
@@ -179,7 +186,7 @@ describe('dataServices', () => {
         lastname: 'Perez',
         password: 'newpassword456',
       });
-      expect(updatedUser).toHaveProperty('uid', 7);
+      expect(updatedUser).toHaveProperty('id', 7);
       expect(updatedUser.name).toBe('Juanito');
       expect(updatedUser.lastname).toBe('Perez');
       expect(updatedUser.email).toBe('pepito@test.com');
@@ -215,7 +222,7 @@ describe('dataServices', () => {
         'password123'
       );
       expect(loggedInUser).toEqual({
-        uid: 1,
+        id: 1,
         email: 'user1@test.com',
         password: 'password123',
         balance: 100,
@@ -253,7 +260,7 @@ describe('dataServices', () => {
 
   describe('getBalance', () => {
     it('should return balance of a user', () => {
-      const user = { uid: 1, balance: 100 };
+      const user = { id: 1, balance: 100 };
       const balance = getBalance(user);
       expect(balance).toBe(100);
     });
@@ -300,7 +307,7 @@ describe('dataServices', () => {
 
   describe('getTransactions', () => {
     it('should return transactions of a user', () => {
-      const user = { uid: 1, transactions: [] };
+      const user = { id: 1, transactions: [] };
       const transactions = getTransactions(user);
       expect(transactions).toEqual([]);
     });
@@ -357,7 +364,7 @@ describe('dataServices', () => {
   describe('getContacts', () => {
     it('should return contacts of a user', () => {
       const user = {
-        uid: 1,
+        id: 1,
         contacts: [
           {
             id: 1,
