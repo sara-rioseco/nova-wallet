@@ -27,33 +27,28 @@ export default function SignUp(onNavigate) {
   loginText.textContent = 'Already have an account?\n';
   loginTextSpan.textContent = 'Login here.';
 
-  $(signUpButton).click(e => {
+  signUpButton.addEventListener('click', e => {
     e.preventDefault();
-    // const name = $('#signup-name').val()
-    // const lastname = $('#signup-lastname').val()
-    // const email = $('#signup-email').val()
-    // const password = $('#signup-password').val()
+    // const name = document.getElementById('signup-name').value;
+    // const lastname = document.getElementById('signup-lastname').value;
     onNavigate('/nova-wallet/home');
   });
 
-  $(loginTextSpan).click(e => {
-    e.preventDefault();
+  loginTextSpan.addEventListener('click', () => {
     onNavigate('/nova-wallet/');
   });
 
-  title.append(titleSpan);
-  loginText.append(loginTextSpan);
-  content.append(
-    title,
-    username,
-    name,
-    lastname,
-    email,
-    password,
-    signUpButton,
-    loginText
-  );
-  wrapper.append(content);
+  title.appendChild(titleSpan);
+  loginText.appendChild(loginTextSpan);
+  content.appendChild(title);
+  content.appendChild(username);
+  content.appendChild(name);
+  content.appendChild(lastname);
+  content.appendChild(email);
+  content.appendChild(password);
+  content.appendChild(signUpButton);
+  content.appendChild(loginText);
+  wrapper.appendChild(content);
 
   return wrapper;
 }

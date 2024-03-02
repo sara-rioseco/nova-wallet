@@ -13,8 +13,10 @@ export default function Transactions(onNavigate) {
   wrapper.className = 'transactions-wrapper';
   content.className = 'transactions-content-wrapper';
 
-  content.append(title);
-  wrapper.append(nav, content, foot);
+  content.appendChild(title);
+  wrapper.appendChild(nav);
+  wrapper.appendChild(content);
+  wrapper.appendChild(foot);
 
   return wrapper;
 }

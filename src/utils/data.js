@@ -1,14 +1,45 @@
 import * as fs from 'node:fs/promises';
 
 export default function dataServices() {
-  const dataUrl = './src/db/db.json';
+  const dataUrl = '../db/db.json';
+  // const dataUrl = 'http://localhost:3000/users'; For use with JSON SERVER
+
   // DATA
-  const getData = async function () {
+  const getData = async function (url) {
+    // ------------------ con fetch --------------------
+
     try {
-      return JSON.parse(await fs.readFile(dataUrl, { encoding: 'utf8' }));
-    } catch (error) {
-      throw new Error(error.message);
+      const response = await fetch(url, {
+        credentials: 'include',
+      });
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      throw new Error(e);
     }
+
+    // ----------------- with NODE FS --------------------
+
+    // const data = await fs.readFile(dataUrl, { encoding: 'utf8' });
+    // return JSON.parse(data);
+
+    // ------------- with JSON SERVER & fetch ------------
+    // try {
+    //   const response = await fetch(url, {
+    //     method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    //     mode: 'cors', // no-cors, *cors, same-origin
+    //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    //     credentials: 'same-origin', // include, *same-origin, omit
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     redirect: 'follow', // manual, *follow, error
+    //     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    //   });
+    //   return response.json();
+    // } catch (e) {
+    //   throw new Error(e);
+    // }
   };
 
   // USERS
@@ -49,7 +80,7 @@ export default function dataServices() {
       throw new Error('Wrong argument types');
     const users = data.users.length;
     const newUser = {
-      id: users + 1,
+      uid: users + 1,
       name,
       lastname,
       email,
@@ -59,27 +90,8 @@ export default function dataServices() {
       transactions: [],
       contacts: [],
     };
-
-    // try {
-    //   const response = await fetch(dataUrl, {
-    //     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    //     mode: 'cors', // no-cors, *cors, same-origin
-    //     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    //     credentials: 'same-origin', // include, *same-origin, omit
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(newUser),
-    //     redirect: 'follow', // manual, *follow, error
-    //     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    //   });
-    //   const res = await response.json();
-    //   return res;
-    // } catch (e) {
-    //   throw new Error(e);
-    // }
-
     data.users.push(newUser);
+
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
         encoding: 'utf-8',
@@ -97,7 +109,7 @@ export default function dataServices() {
     const user = getUserById(data, uid);
 
     const updatedUser = {
-      id: uid,
+      uid,
       name: options.name || user.name,
       lastname: options.lastname || user.lastname,
       email: user.email,
@@ -159,7 +171,7 @@ export default function dataServices() {
     const newBalance = user.balance + transaction.amount;
 
     const updatedUser = {
-      id: uid,
+      uid,
       name: user.name,
       lastname: user.lastname,
       email: user.email,
@@ -215,7 +227,7 @@ export default function dataServices() {
     transactions.push(newTransaction);
 
     const updatedUser = {
-      id: uid,
+      uid,
       name: user.name,
       lastname: user.lastname,
       email: user.email,
@@ -291,7 +303,7 @@ export default function dataServices() {
     contacts.push(newContact);
 
     const updatedUser = {
-      id: uid,
+      uid,
       name: user.name,
       lastname: user.lastname,
       email: user.email,
@@ -343,7 +355,7 @@ export default function dataServices() {
     contacts.splice(contactI, 1, updatedContact);
 
     const updatedUser = {
-      id: uid,
+      uid,
       name: user.name,
       lastname: user.lastname,
       email: user.email,
@@ -386,7 +398,7 @@ export default function dataServices() {
     contacts.splice(contactI, 1);
 
     const updatedUser = {
-      id: uid,
+      uid,
       name: user.name,
       lastname: user.lastname,
       email: user.email,
@@ -431,8 +443,3 @@ export default function dataServices() {
     deleteContact,
   };
 }
-
-const { getData } = dataServices();
-
-const data = await getData();
-console.log(data);

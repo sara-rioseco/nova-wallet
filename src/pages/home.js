@@ -5,9 +5,10 @@ import { balance } from '../components/balance.js';
 import { iconButton } from '../components/icon-button.js';
 import { historyItem } from '../components/history-item.js';
 
-const { getData, getUserById, getTransactions, getBalance } = dataServices();
+const { dataUrl, getData, getUserById, getTransactions, getBalance } =
+  dataServices();
 
-const data = await getData();
+const data = await getData(dataUrl);
 
 export default function Home(onNavigate) {
   const uid = localStorage.getItem('uid');
@@ -35,33 +36,32 @@ export default function Home(onNavigate) {
   content.className = 'home-content-wrapper';
   left.classList.add('home-left');
 
-  $(depositButton).click(e => {
+  depositButton.addEventListener('click', e => {
     e.preventDefault();
     onNavigate('/nova-wallet/deposit');
   });
 
-  $(transferButton).click(e => {
+  transferButton.addEventListener('click', e => {
     e.preventDefault();
     onNavigate('/nova-wallet/transfer');
   });
 
-  $(transactionsButton).click(e => {
+  transactionsButton.addEventListener('click', e => {
     e.preventDefault();
     onNavigate('/nova-wallet/transactions');
   });
 
-  $(accountButton).click(e => {
+  accountButton.addEventListener('click', e => {
     e.preventDefault();
+    console.log('aquí se abre un modal para ver datos de usuario');
   });
 
-  left.append(
-    leftTitle,
-    accountBalance,
-    depositButton,
-    transferButton,
-    transactionsButton,
-    accountButton
-  );
+  left.appendChild(leftTitle);
+  left.appendChild(accountBalance);
+  left.appendChild(depositButton);
+  left.appendChild(transferButton);
+  left.appendChild(transactionsButton);
+  left.appendChild(accountButton);
 
   rightTitle.classList.add('home-right-title', 'home-title');
   rightTitle.textContent = 'Recent Activity';
@@ -69,12 +69,16 @@ export default function Home(onNavigate) {
   right.classList.add('home-right');
 
   transactions.forEach(item => {
-    history.append(historyItem(item));
+    history.appendChild(historyItem(item));
   });
 
-  right.append(rightTitle, history);
-  content.append(left, right);
-  wrapper.append(nav, content, foot);
+  right.appendChild(rightTitle);
+  right.appendChild(history);
+  content.appendChild(left);
+  content.appendChild(right);
+  wrapper.appendChild(nav);
+  wrapper.appendChild(content);
+  wrapper.appendChild(foot);
 
   return wrapper;
 }

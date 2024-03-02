@@ -1,6 +1,9 @@
 /* eslint-disable no-console */
 import { button } from '../components/button.js';
 import { input } from '../components/input.js';
+import dataServices from '../utils/data.js';
+
+const { dataUrl, getData, userLogin } = dataServices();
 
 export default function Login(onNavigate) {
   const wrapper = document.createElement('div');
@@ -25,21 +28,38 @@ export default function Login(onNavigate) {
   signUpText.textContent = "Don't have an account?\n";
   signUpTextSpan.textContent = 'Sign up here.';
 
-  loginButton.addEventListener('click', e => {
+  loginButton.addEventListener('click', async e => {
     e.preventDefault();
-    // const email = document.getElementById('login-email').value;
-    // const password = document.getElementById('login-password').value;
-    onNavigate('/nova-wallet/home');
+    const email = $('#login-email').val();
+    const password = $('#login-password').val();
+    try {
+      const data = await getData(dataUrl);
+      const user = await userLogin(data, email, password);
+      localStorage.setItem('uid', user.id);
+      localStorage.setItem('name', user.name);
+      localStorage.setItem('lastname', user.lastname);
+      localStorage.setItem('email', user.email);
+      localStorage.setItem('role', user.role);
+      onNavigate('/nova-wallet/home');
+    } catch (e) {
+      alert('Invalid credentials');
+      console.error(e);
+    }
   });
 
   $(signUpTextSpan).click(() => {
     onNavigate('/nova-wallet/signup');
   });
 
-  title.append(titleSpan);
-  signUpText.append(signUpTextSpan);
-  content.append(title, username, email, password, loginButton, signUpText);
-  wrapper.append(content);
+  $(title).append(titleSpan);
+  $(signUpText).append(signUpTextSpan);
+  $(content).append(title);
+  $(content).append(username);
+  $(content).append(email);
+  $(content).append(password);
+  $(content).append(loginButton);
+  $(content).append(signUpText);
+  $(wrapper).append(content);
 
   return wrapper;
 }
