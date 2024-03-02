@@ -4,8 +4,11 @@ export default function dataServices() {
   const dataUrl = './src/db/db.json';
   // DATA
   const getData = async function () {
-    const data = await fs.readFile(dataUrl, { encoding: 'utf8' });
-    return JSON.parse(data);
+    try {
+      return JSON.parse(await fs.readFile(dataUrl, { encoding: 'utf8' }));
+    } catch (error) {
+      throw new Error(error.message);
+    }
   };
 
   // USERS
