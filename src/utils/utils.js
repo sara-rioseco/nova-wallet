@@ -7,9 +7,13 @@ export function utils() {
   const isEmailValid = email =>
     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email);
 
+  const cap = s =>
+    typeof s === 'string' ? s.charAt(0).toUpperCase() + s.slice(1) : null;
+
   return {
     arePasswordsEqual,
     isPasswordValid,
     isEmailValid,
+    cap,
   };
 }

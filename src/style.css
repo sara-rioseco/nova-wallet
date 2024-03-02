@@ -1,4 +1,6 @@
 :root {
+  --color-scheme: var(--no-dark-mode);
+
   --ff-body: Poppins;
   --ff-button: Roboto;
 
@@ -22,7 +24,7 @@
   --clr-primary-900: rgba(30, 30, 30, 1);
 
   --clr-transp-100: rgba(255, 255, 255, 0.1);
-  --clr-transp-200: rgba(217, 217, 217, 0.6);
+  --clr-transp-200: rgba(237, 237, 237, 0.6);
   --clr-transp-300: rgba(173, 173, 173, 0.7);
   --clr-transp-400: rgba(117, 117, 117, 0.6);
   --clr-transp-500: rgba(75, 75, 75, 0.6);
@@ -30,6 +32,10 @@
   --clr-transp-700: rgba(43, 43, 43, 0.8);
   --clr-transp-800: rgba(34, 34, 34, 0.9);
   --clr-transp-900: rgba(30, 30, 30, 0.9);
+
+  /* settings */
+  --no-dark-mode: light;
+  --dark-mode: dark light;
 }
 
 @font-face {
@@ -125,6 +131,10 @@
   font: inherit;
 }
 
+html {
+  color-scheme: var(--color-scheme);
+}
+
 body {
   min-height: 100vh;
   margin: auto;
@@ -154,7 +164,6 @@ body::before {
 }
 
 .root {
-  /* width: min(60rem, 100% - 2rem); */
   width: 100vw;
   min-height: 100vh;
   margin-inline: auto;
@@ -190,7 +199,6 @@ div.root::before {
 h1 {
   letter-spacing: 8px;
   font-weight: 500;
-  margin-block: 15px;
   text-shadow: 0 3px 3px var(--clr-transp-500);
   font-size: var(--fs-600);
 }
@@ -240,7 +248,7 @@ p.signup-text>span {
 }
 
 .signup-content-wrapper {
-  gap: 6.6px;
+  gap: 1em;
 }
 
 .home-wrapper,
@@ -266,12 +274,118 @@ p.signup-text>span {
   background: radial-gradient(circle, var(--clr-primary-100) 40%, var(--clr-transp-200) 100%);
   border-radius: 32px;
   width: min(900px, 90vw);
-  min-height: 600px;
+  min-height: 500px;
   flex: 1 1 auto;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+/*--------- Home ---------*/
+.home-content-wrapper {
+  gap: 4em;
+  padding: 3em 4em;
+}
+
+.home-left {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: 0.2fr 1fr 1fr 0.2fr;
+  gap: 1em;
+}
+
+.home-left-title {
+  font-size: var(--fs-500);
+  font-weight: 500;
+  text-align: right;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  padding-right: 0.2em;
+}
+
+.balance-wrapper {
+  font-size: var(--fs-400);
+  border: none;
+  padding: 0.2em 1em;
+  border-radius: 16px;
+  background-color: var(--clr-primary-500);
+  color: var(--clr-primary-200);
+  box-shadow: 0 3px 3px 0 var(--clr-transp-500);
+  grid-column-start: 2;
+  grid-column-end: 4;
+  width: 100%;
+  text-align: right;
+}
+
+.home-left>.icon-button {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  border-radius: 16px;
+  background-color: var(--clr-primary-700);
+  color: var(--clr-primary-200);
+  box-shadow: 0 3px 3px 0 var(--clr-transp-500);
+  width: 120px;
+  height: 120px;
+}
+
+.home-icon {
+  text-align: center;
+  font-size: var(--fs-700);
+  align-self: center;
+}
+
+.home-left>:nth-child(3),
+.home-left>:nth-child(5) {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  place-self: start;
+}
+
+.home-left>:nth-child(4),
+.home-left>:nth-child(6) {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  place-self: end;
+}
+
+.home-left>.icon-button:is(:hover, :focus-visible) {
+  background-color: var(--clr-primary-500);
+  box-shadow: 0 3px 3px 0 var(--clr-transp-600);
+  color: var(--clr-primary-100);
+}
+
+
+.home-right {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: 0.2fr [content-start] 1fr [content-end] 0.2fr;
+  gap: 1em;
+  background-color: var(--clr-transp-200);
+  border-radius: 16px;
+  padding-block: 7em;
+}
+
+.home-right>* {
+  grid-column: content;
+}
+
+.home-right-title {
+  font-size: var(--fs-400);
+  text-align: center;
+  font-weight: 500;
+}
+
+.home-history-wrapper {
+  display: grid;
+  gap: 1em;
+}
+
+.history-item-title {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 500;
 }
 
 /*------- Footer ----------*/
@@ -299,8 +413,7 @@ button {
   box-shadow: 0 3px 3px 0 var(--clr-transp-500);
 }
 
-button:hover,
-button:focus {
+button:is(:hover, :focus-visible) {
   background-color: var(--clr-primary-400);
   box-shadow: 0 3px 3px 0 var(--clr-transp-600);
   color: var(--clr-primary-100);
@@ -368,9 +481,9 @@ button:active {
   color: var(--clr-primary-400);
   background-color: var(--clr-primary-100);
   background: var(--clr-primary-100);
-  background: -moz-linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
-  background: -webkit-linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
-  background: linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
+  background: -moz-linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%, var(--clr-primary-100) 40%, var(--clr-transp-100) 65%);
+  background: -webkit-linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%, var(--clr-primary-100) 40%, var(--clr-transp-100) 65%);
+  background: linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%, var(--clr-primary-100) 40%, var(--clr-transp-100) 65%);
 }
 
 .input-label {
@@ -386,7 +499,7 @@ button:active {
   background: linear-gradient(0deg, var(--clr-transp-100) 0%, var(--clr-primary-100) 35%);
 }
 
-/* ------- NAV BAR ------- */
+/* ------- Nav bar & hamburger menu ------- */
 
 .header-container {
   width: 95%;
@@ -487,15 +600,6 @@ header::after {
   cursor: pointer;
 }
 
-.site-nav--icon {
-  display: inline-block;
-  font-size: 1.5em;
-  margin-right: 1em;
-  width: 1.1em;
-  text-align: right;
-  color: rgba(255, 255, 255, 0.4);
-}
-
 .menu-toggle {
   padding: 1em;
   background: transparent;
@@ -559,6 +663,43 @@ header::after {
   width: 1px;
 }
 
+/* -------- Font awesome icons -------- */
+
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: var(--fs-700);
+  color: var(--clr-primary-200);
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-home:before {
+  content: "\f015"
+}
+
+.fa-credit-card:before {
+  content: "\f09d"
+}
+
+.fa-exchange:before {
+  content: "\f0ec"
+}
+
+.fa-history:before {
+  content: "\f1da"
+}
+
+.fa-sign-out:before {
+  content: "\f08b"
+}
+
+.fa-user:before {
+  content: "\f007"
+}
+
+/*------------- DESKTOP -------------*/
 @media (min-width: 750px) {
   header {
     position: fixed;
@@ -588,8 +729,7 @@ header::after {
     align-items: center;
   }
 
-  .menu-toggle,
-  .fa.fa {
+  .menu-toggle {
     display: none;
   }
 
@@ -611,6 +751,5 @@ header::after {
   .transfer-content-wrapper,
   .transactions-content-wrapper {
     min-width: 700px;
-    min-height: 500px;
   }
 }
