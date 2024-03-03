@@ -7,11 +7,11 @@ import dataServices from '../utils/data.js';
 
 const { getData, getUserById, getBalance } = dataServices();
 const data = await getData();
-const uid = localStorage.getItem('uid');
-const user = getUserById(data, Number(uid));
-let initialBalance = getBalance(user);
 
 export default function Deposit(onNavigate) {
+  const uid = localStorage.getItem('uid');
+  const user = getUserById(data, Number(uid));
+  let initialBalance = getBalance(user);
   const balanceDiv = document.createElement('div');
   const accountBalance = balance(initialBalance);
   const wrapper = document.createElement('div');
@@ -26,22 +26,10 @@ export default function Deposit(onNavigate) {
     .off('click')
     .on('click', e => {
       e.preventDefault();
-      // handleDeposit(e);
-      // const transaction = await addTransaction(
-      //   data,
-      //   Number(uid),
-      //   Number($('#deposit-amount').val())
-      // );
-      // const newBalance = await updateBalance(data, Number(uid), transaction);
-      // $(accountBalance).remove();
-      // $(amount).remove();
-      // $(depositButton).remove();
-      // $(content).append(balance(initialBalance), amount, depositButton);
       const newBalance = balance(
         (initialBalance += Number($('#deposit-amount').val()))
       );
       $(balanceDiv).html(newBalance);
-      console.log(newBalance);
       return false;
     });
 

@@ -69,9 +69,11 @@ export default function Home(onNavigate) {
   history.classList.add('home-history-wrapper');
   right.classList.add('home-right');
 
-  transactions.reverse().forEach(item => {
-    $(history).append(historyItem(item));
-  });
+  transactions
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .forEach(item => {
+      $(history).append(historyItem(item));
+    });
 
   $(right).append(rightTitle, history);
   $(content).append(left, right);
