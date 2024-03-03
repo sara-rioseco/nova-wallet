@@ -1,6 +1,9 @@
 /* eslint-disable no-console */
 import { button } from '../components/button.js';
 import { input } from '../components/input.js';
+import dataServices from '../utils/data.js';
+
+const { getData, createUser } = dataServices();
 
 export default function SignUp(onNavigate) {
   const wrapper = document.createElement('div');
@@ -27,28 +30,47 @@ export default function SignUp(onNavigate) {
   loginText.textContent = 'Already have an account?\n';
   loginTextSpan.textContent = 'Login here.';
 
-  signUpButton.addEventListener('click', e => {
+  $(signUpButton).click(async e => {
     e.preventDefault();
-    // const name = document.getElementById('signup-name').value;
-    // const lastname = document.getElementById('signup-lastname').value;
+    const name = $('#signup-name').val();
+    const lastname = $('#signup-lastname').val();
+    const mail = $('#signup-email').val();
+    const pass = $('#signup-password').val();
+    console.log('trying to sign up user: ', name, lastname, mail);
+    try {
+      const data = await getData();
+      const user = await createUser(data, name, lastname, mail, pass);
+      localStorage.setItem('uid', user.id);
+      localStorage.setItem('name', user.name);
+      localStorage.setItem('lastname', user.lastname);
+      localStorage.setItem('email', user.email);
+      localStorage.setItem('role', user.role);
+      alert('User created successfully');
+      onNavigate('/nova-wallet/home');
+    } catch (e) {
+      alert('Unable to create user');
+      console.error(e.message);
+    }
     onNavigate('/nova-wallet/home');
   });
 
-  loginTextSpan.addEventListener('click', () => {
+  $(loginTextSpan).click(() => {
     onNavigate('/nova-wallet/');
   });
 
-  title.appendChild(titleSpan);
-  loginText.appendChild(loginTextSpan);
-  content.appendChild(title);
-  content.appendChild(username);
-  content.appendChild(name);
-  content.appendChild(lastname);
-  content.appendChild(email);
-  content.appendChild(password);
-  content.appendChild(signUpButton);
-  content.appendChild(loginText);
-  wrapper.appendChild(content);
+  $(title).append(titleSpan);
+  $(loginText).append(loginTextSpan);
+  $(content).append(
+    title,
+    username,
+    name,
+    lastname,
+    email,
+    password,
+    signUpButton,
+    loginText
+  );
+  $(wrapper).append(content);
 
   return wrapper;
 }

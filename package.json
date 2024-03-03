@@ -10,6 +10,9 @@
     "url": "https://github.com/sara-rioseco/"
   },
   "main": "./src/index.html",
+  "icons": {
+    "16": "./src/favicon.ico"
+  },
   "scripts": {
     "htmlhint": "htmlhint src/*.html test/*.html",
     "dev": "vite dev src",

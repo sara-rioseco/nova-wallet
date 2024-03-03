@@ -50,7 +50,14 @@ export const header = onNavigate => {
   transactionsLi.addEventListener('click', () =>
     onNavigate('/nova-wallet/transactions')
   );
-  signoutLi.addEventListener('click', () => onNavigate('/nova-wallet/'));
+  signoutLi.addEventListener('click', () => {
+    localStorage.removeItem('name');
+    localStorage.removeItem('lastname');
+    localStorage.removeItem('email');
+    localStorage.removeItem('uid');
+    localStorage.removeItem('role');
+    onNavigate('/nova-wallet/');
+  });
 
   bttn.addEventListener('click', () => {
     const isOpened = bttn.getAttribute('aria-expanded') === 'true';

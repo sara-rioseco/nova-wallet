@@ -14,6 +14,12 @@ export const input = (name, id, type) => {
   input.name = `${name}`;
   input.required = true;
 
+  if (type === 'number') {
+    input.step = '0.01';
+    input.min = '0.01';
+    input.max = '10000.01';
+  }
+
   label.setAttribute('for', `${id}`);
   label.textContent = `Enter your ${name}`;
 

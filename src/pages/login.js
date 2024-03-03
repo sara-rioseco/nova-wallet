@@ -28,7 +28,7 @@ export default function Login(onNavigate) {
   signUpText.textContent = "Don't have an account?\n";
   signUpTextSpan.textContent = 'Sign up here.';
 
-  loginButton.addEventListener('click', async e => {
+  $(loginButton).click(async e => {
     e.preventDefault();
     const email = $('#login-email').val();
     const password = $('#login-password').val();
@@ -53,12 +53,7 @@ export default function Login(onNavigate) {
 
   $(title).append(titleSpan);
   $(signUpText).append(signUpTextSpan);
-  $(content).append(title);
-  $(content).append(username);
-  $(content).append(email);
-  $(content).append(password);
-  $(content).append(loginButton);
-  $(content).append(signUpText);
+  $(content).append(title, username, email, password, loginButton, signUpText);
   $(wrapper).append(content);
 
   return wrapper;
