@@ -12,10 +12,10 @@ export const historyItem = transaction => {
   subtitle.classList.add('history-item-subtitle');
 
   type.textContent = `${utils().cap(transaction.type)}`;
-  amount.textContent = `US$ ${transaction.amount.toLocaleString('en-US', {
+  amount.textContent = `${transaction.amount.toLocaleString('en-US', {
     style: 'currency',
     currency: 'USD',
-  })}`;
+  })} `;
   subtitle.textContent = `${new Date(transaction.date).toLocaleDateString(
     'en-US',
     {
