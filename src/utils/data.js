@@ -1,7 +1,7 @@
 import * as fs from 'node:fs/promises';
 
 export default function dataServices() {
-  const dataUrl = '../db/db.json';
+  const dataUrl = 'https://json-server-gamma-brown.vercel.app/users';
   // const dataUrl = 'http://localhost:3000/users'; For use with JSON SERVER
 
   // DATA
@@ -49,7 +49,7 @@ export default function dataServices() {
     if (!data || !uid || typeof uid !== 'number') {
       throw new Error('Wrong argument types');
     }
-    const user = data.users.find(user => user.id === uid);
+    const user = data.find(user => user.id === uid);
     if (!user) {
       throw new Error('Unable to find user');
     }
@@ -61,7 +61,7 @@ export default function dataServices() {
       throw new Error('Wrong argument types');
     }
 
-    const user = data.users.find(user => user.email === email);
+    const user = data.find(user => user.email === email);
     if (!user) {
       throw new Error('Unable to find user');
     }
@@ -119,9 +119,9 @@ export default function dataServices() {
       transactions: user.transactions,
       contacts: user.contacts,
     };
-    const userI = data.users.indexOf(user);
+    const userI = data.indexOf(user);
 
-    data.users.splice(userI, 1, updatedUser);
+    data.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -182,9 +182,9 @@ export default function dataServices() {
       contacts: user.contacts,
     };
 
-    const userI = data.users.indexOf(user);
+    const userI = data.indexOf(user);
 
-    data.users.splice(userI, 1, updatedUser);
+    data.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -238,9 +238,9 @@ export default function dataServices() {
       contacts: user.contacts,
     };
 
-    const userI = data.users.indexOf(user);
+    const userI = data.indexOf(user);
 
-    data.users.splice(userI, 1, updatedUser);
+    data.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -272,13 +272,38 @@ export default function dataServices() {
     }
     const user = getUserById(data, uid);
 
-    const userI = data.users.indexOf(user);
+    const userI = data.indexOf(user);
 
-    const contact = data.users[userI].contacts.find(
-      contact => contact.id === id
-    );
+    const contact = data[userI].contacts.find(contact => contact.id === id);
 
     if (contact) {
+      return contact;
+    } else {
+      throw new Error('Unable to find contact');
+    }
+  };
+
+  const getContactByName = (data, uid, name) => {
+    if (
+      !data ||
+      !uid ||
+      !name ||
+      typeof uid !== 'number' ||
+      typeof name !== 'string'
+    ) {
+      throw new Error('Wrong argument types');
+    }
+    const user = getUserById(data, uid);
+
+    const userI = data.indexOf(user);
+
+    const contact = data[userI].contacts.filter(
+      contact =>
+        contact.name.toLowerCase().includes(name.toLowerCase()) ||
+        contact.lastname.toLowerCase().includes(name.toLowerCase())
+    );
+
+    if (contact.length > 0) {
       return contact;
     } else {
       throw new Error('Unable to find contact');
@@ -314,9 +339,9 @@ export default function dataServices() {
       contacts: contacts,
     };
 
-    const userI = data.users.indexOf(user);
+    const userI = data.indexOf(user);
 
-    data.users.splice(userI, 1, updatedUser);
+    data.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -366,9 +391,9 @@ export default function dataServices() {
       contacts: contacts,
     };
 
-    const userI = data.users.indexOf(user);
+    const userI = data.indexOf(user);
 
-    data.users.splice(userI, 1, updatedUser);
+    data.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -409,9 +434,9 @@ export default function dataServices() {
       contacts: contacts,
     };
 
-    const userI = data.users.indexOf(user);
+    const userI = data.indexOf(user);
 
-    data.users.splice(userI, 1, updatedUser);
+    data.splice(userI, 1, updatedUser);
 
     try {
       await fs.writeFile(dataUrl, JSON.stringify(data), {
@@ -438,6 +463,7 @@ export default function dataServices() {
     addTransaction,
     getContacts,
     getContactById,
+    getContactByName,
     addContact,
     updateContact,
     deleteContact,

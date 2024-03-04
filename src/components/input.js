@@ -21,7 +21,12 @@ export const input = (name, id, type) => {
   }
 
   label.setAttribute('for', `${id}`);
-  label.textContent = `Enter your ${name}`;
+  label.textContent =
+    name === 'contact'
+      ? 'Search contact'
+      : name === 'amount'
+        ? 'Enter amount'
+        : `Enter your ${name}`;
 
   wrapper.appendChild(input);
   wrapper.appendChild(label);

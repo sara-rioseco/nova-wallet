@@ -17,7 +17,9 @@
           "id": 1,
           "name": "Mauricio",
           "lastname": "Rioseco",
-          "email": "mauricio@mail.com"
+          "email": "mauricio@mail.com",
+          "bank": "Banco Itau",
+          "account": "00006666666"
         }
       ]
     },
@@ -38,7 +40,9 @@
           "id": 1,
           "name": "Mauricio",
           "lastname": "Rioseco",
-          "email": "mauricio@mail.com"
+          "email": "mauricio@mail.com",
+          "bank": "Banco Santander",
+          "account": "05555555555"
         }
       ]
     },
@@ -59,7 +63,64 @@
         { "date": "03-01-2024", "amount": 100, "type": "deposit" },
         { "date": "03-02-2024", "amount": -300, "type": "transfer" }
       ],
-      "contacts": []
+      "contacts": [
+        {
+          "id": 1,
+          "name": "Marta",
+          "lastname": "García",
+          "email": "martita@mail.com",
+          "bank": "Banco Santander",
+          "account": "02222222222"
+        },
+        {
+          "id": 2,
+          "name": "Guillermo",
+          "lastname": "Perez",
+          "email": "guille@mail.com",
+          "bank": "Banco Scotiabank",
+          "account": "05555566666"
+        },
+        {
+          "id": 3,
+          "name": "Natalia",
+          "lastname": "Correa",
+          "email": "natalia.correa@mail.com",
+          "bank": "Banco de Chile",
+          "account": "044444433333"
+        },
+        {
+          "id": 4,
+          "name": "Jorge",
+          "lastname": "Correa",
+          "email": "jorge@mail.com",
+          "bank": "Banco Scotiabank",
+          "account": "08888888999"
+        },
+        {
+          "id": 5,
+          "name": "Gonzalo",
+          "lastname": "Mardones",
+          "email": "gonza@mail.com",
+          "bank": "Banco de Chile",
+          "account": "042222222223"
+        },
+        {
+          "id": 6,
+          "name": "María",
+          "lastname": "Benavides",
+          "email": "m.benavides@mail.com",
+          "bank": "Banco Santander",
+          "account": "0777777777"
+        },
+        {
+          "id": 7,
+          "name": "Luffy",
+          "lastname": "Monkey D",
+          "email": "kaizokuOu@mail.com",
+          "bank": "Banco del East Blue",
+          "account": "5656565656"
+        }
+      ]
     }
   ]
 }

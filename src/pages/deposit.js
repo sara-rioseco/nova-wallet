@@ -30,6 +30,7 @@ export default function Deposit(onNavigate) {
         (initialBalance += Number($('#deposit-amount').val()))
       );
       $(balanceDiv).html(newBalance);
+      $('#deposit-amount').val('');
       return false;
     });
 
