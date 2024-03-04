@@ -5,5 +5,6 @@ export default {
   base: '/nova-wallet/',
   build: {
     outDir: '../public',
+    target: 'ES2022',
   },
 };

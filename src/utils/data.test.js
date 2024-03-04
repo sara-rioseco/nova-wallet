@@ -17,6 +17,7 @@ const {
   addTransaction,
   getContacts,
   getContactById,
+  getContactByName,
   addContact,
   updateContact,
   deleteContact,
@@ -93,7 +94,7 @@ describe('dataServices', () => {
 
   describe('getUserById', () => {
     it('should return user by id', () => {
-      const result = getUserById(mockData, 1);
+      const result = getUserById(mockData.users, 1);
       expect(result).toEqual(mockData.users[0]);
     });
 
@@ -102,13 +103,15 @@ describe('dataServices', () => {
     });
 
     it('should throw error if user not found', () => {
-      expect(() => getUserById(mockData, 3)).toThrow('Unable to find user');
+      expect(() => getUserById(mockData.users, 3)).toThrow(
+        'Unable to find user'
+      );
     });
   });
 
   describe('getUserByEmail', () => {
     it('should return user by email', () => {
-      const result = getUserByEmail(mockData, 'user1@test.com');
+      const result = getUserByEmail(mockData.users, 'user1@test.com');
       expect(result).toEqual(mockData.users[0]);
     });
 
@@ -117,9 +120,9 @@ describe('dataServices', () => {
     });
 
     it('should throw error if user not found', () => {
-      expect(() => getUserByEmail(mockData, 'nonexistent@test.com')).toThrow(
-        'Unable to find user'
-      );
+      expect(() =>
+        getUserByEmail(mockData.users, 'nonexistent@test.com')
+      ).toThrow('Unable to find user');
     });
   });
 
@@ -174,7 +177,9 @@ describe('dataServices', () => {
         email: 'pepito@test.com',
         password: 'password123',
       });
-      const updatedUser = await updateUser(mockData, 7, { name: 'Juanito' });
+      const updatedUser = await updateUser(mockData.users, 7, {
+        name: 'Juanito',
+      });
       expect(updatedUser).toHaveProperty('id', 7);
       expect(updatedUser.name).toBe('Juanito');
       expect(updatedUser.lastname).toBe('Palotes');
@@ -182,7 +187,7 @@ describe('dataServices', () => {
       expect(updatedUser.password).toBe('password123');
     });
     it("should update an existing user's lastname, email and password", async () => {
-      const updatedUser = await updateUser(mockData, 7, {
+      const updatedUser = await updateUser(mockData.users, 7, {
         lastname: 'Perez',
         password: 'newpassword456',
       });
@@ -194,7 +199,7 @@ describe('dataServices', () => {
     });
     it('should throw an error if user not found', async () => {
       await expect(
-        updateUser(mockData, 25, {
+        updateUser(mockData.users, 25, {
           name: 'Juan',
           lastname: 'Perez',
           password: '123456',
@@ -204,12 +209,12 @@ describe('dataServices', () => {
     it('should spread error if fs.writeFile is rejected', async () => {
       fs.writeFile.mockRejectedValue('Error');
       await expect(
-        updateUser(mockData, 3, 'Carla', 'Perez', 'supersecurepassword')
+        updateUser(mockData.users, 3, 'Carla', 'Perez', 'supersecurepassword')
       ).rejects.toThrow(new Error('Error'));
     });
     it('should throw an error for invalid argument types', async () => {
       await expect(
-        updateUser(mockData, 'Juan', 'Perez', 'juan@test.com', 123456)
+        updateUser(mockData.users, 'Juan', 'Perez', 'juan@test.com', 123456)
       ).rejects.toThrow('Id of type number is required');
     });
   });
@@ -217,7 +222,7 @@ describe('dataServices', () => {
   describe('userLogin', () => {
     it('should login a user with correct credentials', async () => {
       const loggedInUser = await userLogin(
-        mockData,
+        mockData.users,
         'user1@test.com',
         'password123'
       );
@@ -232,23 +237,23 @@ describe('dataServices', () => {
 
     it('should throw an error for incorrect credentials', async () => {
       await expect(
-        userLogin(mockData, 'user1@test.com', 'wrongpassword')
+        userLogin(mockData.users, 'user1@test.com', 'wrongpassword')
       ).rejects.toThrow('Wrong credentials');
     });
 
     it('should throw an error for wrong argument types', async () => {
-      await expect(userLogin(mockData, null, 'password123')).rejects.toThrow(
-        'Wrong argument types'
-      );
-      await expect(userLogin(mockData, 'user@test.com', null)).rejects.toThrow(
-        'Wrong argument types'
-      );
-      await expect(userLogin(mockData, 123, 'password123')).rejects.toThrow(
-        'Wrong argument types'
-      );
-      await expect(userLogin(mockData, 'user@test.com', 123)).rejects.toThrow(
-        'Wrong argument types'
-      );
+      await expect(
+        userLogin(mockData.users, null, 'password123')
+      ).rejects.toThrow('Wrong argument types');
+      await expect(
+        userLogin(mockData.users, 'user@test.com', null)
+      ).rejects.toThrow('Wrong argument types');
+      await expect(
+        userLogin(mockData.users, 123, 'password123')
+      ).rejects.toThrow('Wrong argument types');
+      await expect(
+        userLogin(mockData.users, 'user@test.com', 123)
+      ).rejects.toThrow('Wrong argument types');
     });
 
     it('should throw an error if data is missing', async () => {
@@ -269,7 +274,7 @@ describe('dataServices', () => {
   describe('updateBalance', () => {
     it('should update balance of a user', async () => {
       fs.writeFile.mockResolvedValue();
-      const updatedBalance = await updateBalance(mockData, 1, {
+      const updatedBalance = await updateBalance(mockData.users, 1, {
         amount: 50,
       });
       expect(updatedBalance).toBe(150);
@@ -277,7 +282,7 @@ describe('dataServices', () => {
     it('should spread error if fs.writeFile is rejected', async () => {
       fs.writeFile.mockRejectedValue('Error');
       await expect(
-        updateBalance(mockData, 1, {
+        updateBalance(mockData.users, 1, {
           date: 'some date string',
           amount: 50,
           type: 'deposit',
@@ -288,19 +293,19 @@ describe('dataServices', () => {
       await expect(updateBalance()).rejects.toThrow('Wrong argument types');
     });
     it('should throw an error for incorrect user id', async () => {
-      await expect(updateBalance(mockData, 8, { amount: 50 })).rejects.toThrow(
-        'Unable to find user'
-      );
+      await expect(
+        updateBalance(mockData.users, 8, { amount: 50 })
+      ).rejects.toThrow('Unable to find user');
     });
     it('should throw an error for non-numeric user id', async () => {
       await expect(
-        updateBalance(mockData, 'abc', { amount: 50 })
+        updateBalance(mockData.users, 'abc', { amount: 50 })
       ).rejects.toThrow('Wrong argument types');
     });
 
     it('should throw an error for non-numeric transaction amount', async () => {
       await expect(
-        updateBalance(mockData, 1, { amount: 'abc' })
+        updateBalance(mockData.users, 1, { amount: 'abc' })
       ).rejects.toThrow('Wrong argument types');
     });
   });
@@ -316,7 +321,7 @@ describe('dataServices', () => {
   describe('addTransaction', () => {
     it('should add a transaction for a user', async () => {
       fs.writeFile.mockResolvedValue();
-      const newTransaction = await addTransaction(mockData, 1, 50);
+      const newTransaction = await addTransaction(mockData.users, 1, 50);
       expect(newTransaction).toEqual({
         date: expect.any(String),
         amount: 50,
@@ -325,7 +330,7 @@ describe('dataServices', () => {
     });
     it('should add a transaction of type transfer with negative amount', async () => {
       fs.writeFile.mockResolvedValue();
-      const newTransaction = await addTransaction(mockData, 1, -50);
+      const newTransaction = await addTransaction(mockData.users, 1, -50);
       expect(newTransaction).toEqual({
         date: expect.any(String),
         amount: -50,
@@ -334,7 +339,7 @@ describe('dataServices', () => {
     });
     it('should spread error if fs.writeFile is rejected', async () => {
       fs.writeFile.mockRejectedValue('Error');
-      await expect(addTransaction(mockData, 1, 100)).rejects.toThrow(
+      await expect(addTransaction(mockData.users, 1, 100)).rejects.toThrow(
         new Error('Error')
       );
     });
@@ -343,19 +348,19 @@ describe('dataServices', () => {
     });
 
     it('should throw an error for incorrect user id', async () => {
-      await expect(addTransaction(mockData, 9, 50)).rejects.toThrow(
+      await expect(addTransaction(mockData.users, 9, 50)).rejects.toThrow(
         'Unable to find user'
       );
     });
 
     it('should throw an error for non-numeric user id', async () => {
-      await expect(addTransaction(mockData, 'abc', 50)).rejects.toThrow(
+      await expect(addTransaction(mockData.users, 'abc', 50)).rejects.toThrow(
         'Wrong argument types'
       );
     });
 
     it('should throw an error for non-numeric transaction amount', async () => {
-      await expect(addTransaction(mockData, 1, 'abc')).rejects.toThrow(
+      await expect(addTransaction(mockData.users, 1, 'abc')).rejects.toThrow(
         'Wrong argument types'
       );
     });
@@ -392,7 +397,7 @@ describe('dataServices', () => {
 
   describe('getContactById', () => {
     it('should return a contact by id', () => {
-      const contact = getContactById(mockData, 2, 1);
+      const contact = getContactById(mockData.users, 2, 1);
       expect(contact).toEqual({
         id: 1,
         name: 'Juanito',
@@ -406,13 +411,43 @@ describe('dataServices', () => {
     });
 
     it('should throw an error for incorrect user id', () => {
-      expect(() => getContactById(mockData, 12, 1)).toThrow(
+      expect(() => getContactById(mockData.users, 12, 1)).toThrow(
         'Unable to find user'
       );
     });
 
     it('should throw an error for incorrect contact id', () => {
-      expect(() => getContactById(mockData, 2, 2)).toThrow(
+      expect(() => getContactById(mockData.users, 2, 2)).toThrow(
+        'Unable to find contact'
+      );
+    });
+  });
+
+  describe('getContactByName', () => {
+    it('should return a contact by name', () => {
+      const contact = getContactByName(mockData.users, 2, 'Juanito');
+      expect(contact).toEqual([
+        {
+          id: 1,
+          name: 'Juanito',
+          lastname: 'Gonzalez',
+          email: 'juanito@test.com',
+        },
+      ]);
+    });
+
+    it('should throw an error for missing arguments', () => {
+      expect(() => getContactByName()).toThrow('Wrong argument types');
+    });
+
+    it('should throw an error for incorrect user uid', () => {
+      expect(() => getContactByName(mockData.users, 12, 'Juanito')).toThrow(
+        'Unable to find user'
+      );
+    });
+
+    it('should throw an error for incorrect contact name', () => {
+      expect(() => getContactByName(mockData.users, 2, 'Pepito')).toThrow(
         'Unable to find contact'
       );
     });
@@ -421,7 +456,7 @@ describe('dataServices', () => {
   describe('addContact', () => {
     it('should add a contact for a user', async () => {
       fs.writeFile.mockResolvedValue();
-      const newContact = await addContact(mockData, 1, {
+      const newContact = await addContact(mockData.users, 1, {
         name: 'Maria',
         lastname: 'Gonzalez',
         email: 'maria@test.com',
@@ -436,7 +471,7 @@ describe('dataServices', () => {
     it('should spread error if fs.writeFile is rejected', async () => {
       fs.writeFile.mockRejectedValue('Error');
       await expect(
-        addContact(mockData, 2, { name: 'Juanito' })
+        addContact(mockData.users, 2, { name: 'Juanito' })
       ).rejects.toThrow(new Error('Error'));
     });
     it('should throw an error for missing arguments', async () => {
@@ -445,7 +480,7 @@ describe('dataServices', () => {
 
     it('should throw an error for incorrect user id', async () => {
       await expect(
-        addContact(mockData, 9, {
+        addContact(mockData.users, 9, {
           name: 'Maria',
           lastname: 'Gonzalez',
           email: 'maria@test.com',
@@ -457,7 +492,7 @@ describe('dataServices', () => {
   describe('updateContact', () => {
     it('should update a contact for a user', async () => {
       fs.writeFile.mockResolvedValue();
-      const updatedContact = await updateContact(mockData, 1, 1, {
+      const updatedContact = await updateContact(mockData.users, 1, 1, {
         lastname: 'Gonzalez',
         email: 'maria@test.com',
       });
@@ -471,7 +506,7 @@ describe('dataServices', () => {
     it('should spread error if fs.writeFile is rejected', async () => {
       fs.writeFile.mockRejectedValue('Error');
       await expect(
-        updateContact(mockData, 2, 1, { name: 'Juanito' })
+        updateContact(mockData.users, 2, 1, { name: 'Juanito' })
       ).rejects.toThrow(new Error('Error'));
     });
     it('should throw an error for missing arguments', async () => {
@@ -480,7 +515,7 @@ describe('dataServices', () => {
 
     it('should throw an error for incorrect user id', async () => {
       await expect(
-        updateContact(mockData, 10, 1, {
+        updateContact(mockData.users, 10, 1, {
           name: 'Maria',
           lastname: 'Gonzalez',
           email: 'maria@test.com',
@@ -492,12 +527,12 @@ describe('dataServices', () => {
   describe('deleteContact', () => {
     it('should delete a contact for a user', async () => {
       fs.writeFile.mockResolvedValue();
-      const updatedContacts = await deleteContact(mockData, 1, 1);
+      const updatedContacts = await deleteContact(mockData.users, 1, 1);
       expect(updatedContacts).toEqual([]);
     });
     it('should spread error if fs.writeFile is rejected', async () => {
       fs.writeFile.mockRejectedValue('Error');
-      await expect(deleteContact(mockData, 2, 1)).rejects.toThrow(
+      await expect(deleteContact(mockData.users, 2, 1)).rejects.toThrow(
         new Error('Error')
       );
     });
@@ -506,7 +541,7 @@ describe('dataServices', () => {
     });
 
     it('should throw an error for incorrect user id', async () => {
-      await expect(deleteContact(mockData, 10, 1)).rejects.toThrow(
+      await expect(deleteContact(mockData.users, 10, 1)).rejects.toThrow(
         'Unable to find user'
       );
     });

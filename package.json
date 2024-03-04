@@ -30,8 +30,7 @@
     "javascript",
     "html5",
     "css3",
-    "jquery",
-    "bootstrap"
+    "jquery"
   ],
   "license": "MIT",
   "devDependencies": {
