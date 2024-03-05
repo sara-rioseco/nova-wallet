@@ -483,9 +483,10 @@ input[type=number] {
 .contacts-wrapper {
   width: min(500px, 80vw);
   display: grid;
+  grid-template-rows: 3fr 0.8fr 0.8fr;
   justify-items: center;
   justify-content: center;
-  max-height: 70%;
+  height: max(180px, 70%);
   margin-top: 1em;
 }
 
@@ -508,7 +509,7 @@ input[type=number] {
 
 .contacts-list {
   overflow-y: auto;
-  width: min(500px, 70vw)
+  width: min(500px, 70vw);
 }
 
 .contacts-list> :first-child {
