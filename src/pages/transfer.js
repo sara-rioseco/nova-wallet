@@ -26,14 +26,33 @@ export default function Transfer(onNavigate) {
   const nav = header(onNavigate);
   const foot = footer();
 
-  $(searchInput).on('keyup', () => {
-    contacts = getContactByName(data, Number(uid), $('#contact-search').val());
-    console.log('contactos encontrados: ', contacts);
-  });
-
   contacts.forEach(item => {
     $(contactsList).append(contact(item));
   });
+
+  $(searchInput)
+    .off('click')
+    .on('keyup', e => {
+      e.preventDefault();
+      if ($('#contact-search').val() !== '') {
+        contacts = getContactByName(
+          data,
+          Number(uid),
+          $('#contact-search').val()
+        );
+        $(contactsList).empty();
+        contacts.forEach(item => {
+          $(contactsList).append(contact(item));
+        });
+      } else {
+        contacts = getContacts(user);
+        $(contactsList).empty();
+        contacts.forEach(item => {
+          $(contactsList).append(contact(item));
+        });
+      }
+      return false;
+    });
 
   $(contacts).on('change', () => {
     $(contactsList).empty();
@@ -62,6 +81,7 @@ export default function Transfer(onNavigate) {
         })} to ${$("input[type='radio'][name='contact']:checked").val()}`
       );
       $('#transfer-amount').val('');
+      $('#contact-search').val('');
     }
   });
 
