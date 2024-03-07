@@ -75,25 +75,15 @@ export const header = onNavigate => {
 
     list.addEventListener(
       'animationend',
-      () => {
-        list.setAttribute('data-state', 'closed');
-      },
+      () => list.setAttribute('data-state', 'closed'),
       { once: true }
     );
   }
 
-  list.appendChild(homeLi);
-  list.appendChild(depositLi);
-  list.appendChild(transferLi);
-  list.appendChild(transactionsLi);
-  list.appendChild(signoutLi);
-
-  navbar.appendChild(bttn);
-  navbar.appendChild(list);
-
-  headerContainer.appendChild(title);
-  headerContainer.appendChild(navbar);
-  header.appendChild(headerContainer);
+  $(list).append(homeLi, depositLi, transferLi, transactionsLi, signoutLi);
+  $(navbar).append(bttn, list);
+  $(headerContainer).append(title, navbar);
+  $(header).append(headerContainer);
 
   return header;
 };

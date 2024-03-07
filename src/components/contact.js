@@ -18,8 +18,8 @@ export const contact = item => {
   labelSpan1.textContent = `${item.bank} `;
   labelSpan2.textContent = `#${item.account}`;
 
-  label.append(labelSpan1, labelSpan2);
-  contact.appendChild(label);
+  $(label).append(labelSpan1, labelSpan2);
+  $(contact).append(label);
   $(wrapper).append(contact, label);
 
   return wrapper;

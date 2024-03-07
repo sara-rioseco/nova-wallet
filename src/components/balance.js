@@ -12,8 +12,7 @@ export const balance = amount => {
     style: 'currency',
     currency: 'USD',
   })}`;
-  wrapper.appendChild(title);
-  wrapper.appendChild(subtitle);
+  $(wrapper).append(title, subtitle);
 
   return wrapper;
 };

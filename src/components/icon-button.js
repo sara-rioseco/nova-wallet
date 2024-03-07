@@ -10,6 +10,6 @@ export const iconButton = label => {
   );
   i.classList.add('fa', `fa-${label}`, 'home-icon');
 
-  bttn.appendChild(i);
+  $(bttn).append(i);
   return bttn;
 };
