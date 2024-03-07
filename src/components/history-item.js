@@ -25,10 +25,8 @@ export const historyItem = transaction => {
     }
   )}`;
 
-  title.appendChild(type);
-  title.appendChild(amount);
-  wrapper.appendChild(title);
-  wrapper.appendChild(subtitle);
+  $(title).append(type, amount);
+  $(wrapper).append(title, subtitle);
 
   return wrapper;
 };

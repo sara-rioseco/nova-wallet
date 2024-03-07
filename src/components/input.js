@@ -28,8 +28,7 @@ export const input = (name, id, type) => {
         ? 'Enter amount'
         : `Enter your ${name}`;
 
-  wrapper.appendChild(input);
-  wrapper.appendChild(label);
+  wrapper.append(input, label);
 
   return wrapper;
 };

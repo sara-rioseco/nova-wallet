@@ -6,8 +6,8 @@ export const footer = () => {
   footerContainer.classList.add('footer-container');
   text.textContent = 'Designed and developed by ©Sara Rioseco 2024';
 
-  footerContainer.appendChild(text);
-  footer.appendChild(footerContainer);
+  $(footerContainer).append(text);
+  $(footer).append(footerContainer);
 
   return footer;
 };
