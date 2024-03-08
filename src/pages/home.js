@@ -4,6 +4,7 @@ import { footer } from '../components/footer.js';
 import { balance } from '../components/balance.js';
 import { iconButton } from '../components/icon-button.js';
 import { historyItem } from '../components/history-item.js';
+import { userModal } from '../components/user-modal.js';
 
 const { getData, getUserById, getTransactions, getBalance } = dataServices();
 
@@ -50,9 +51,15 @@ export default function Home(onNavigate) {
     onNavigate('/nova-wallet/transactions');
   });
 
+  const opt = {
+    title: 'User settings',
+    content: 'Here you can change your password',
+  };
+  const modal = userModal(opt);
+
   $(accountButton).click(e => {
     e.preventDefault();
-    console.log('aquí se abre un modal para ver datos de usuario');
+    modal.showModal();
   });
 
   $(left).append(
@@ -77,7 +84,7 @@ export default function Home(onNavigate) {
 
   $(right).append(rightTitle, history);
   $(content).append(left, right);
-  $(wrapper).append(nav, content, foot);
+  $(wrapper).append(nav, content, modal, foot);
 
   return wrapper;
 }
