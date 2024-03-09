@@ -284,6 +284,18 @@ p.signup-text>span {
   transform: translate(-50%, -50%);
 }
 
+.dialog-wrapper>p {
+  min-width: 0;
+  line-height: 1.2;
+  font-size: var(--fs-300);
+  white-space: pre-line;
+  overflow-wrap: break-word;
+}
+
+.dialog-wrapper>h3 {
+  font-weight: 500;
+}
+
 /*--------- Home ---------*/
 .home-content-wrapper {
   gap: 1em;

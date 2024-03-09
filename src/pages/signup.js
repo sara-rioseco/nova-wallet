@@ -24,7 +24,7 @@ export default function SignUp(onNavigate) {
     content: 'successfully',
   });
   const errorModal = msgModal({
-    title: 'Error:',
+    title: 'Error',
     content: 'Unable to create user',
     callback: onNavigate,
   });

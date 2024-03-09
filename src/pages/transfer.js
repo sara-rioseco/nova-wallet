@@ -26,12 +26,16 @@ export default function Transfer(onNavigate) {
   const nav = header(onNavigate);
   const foot = footer();
   const noContactModal = msgModal({
-    title: 'Error:',
+    title: 'Error',
     content: 'Please select a contact',
   });
-  const errorModal = msgModal({
-    title: 'Error:',
+  const noAmountModal = msgModal({
+    title: 'Error',
     content: 'Please enter a transfer amount',
+  });
+  const invalidAmountModal = msgModal({
+    title: 'Error',
+    content: 'Invalid transfer amount',
   });
 
   contacts.forEach(item => {
@@ -78,33 +82,38 @@ export default function Transfer(onNavigate) {
   $(contactsButton).click(() => {
     if ($("input[type='radio'][name='contact']:checked").val() === undefined) {
       noContactModal.showModal();
+    } else if ($('#transfer-amount').val() === '') {
+      noAmountModal.showModal();
+    } else if ($('#transfer-amount').val() <= 0) {
+      invalidAmountModal.showModal();
     } else {
-      if ($('#transfer-amount').val() === '') {
-        errorModal.showModal();
-      } else {
-        const successModal = msgModal({
-          title: 'Transaction completed',
-          content: `You transferred USD${Number(
-            $('#transfer-amount').val()
-          ).toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          })} to ${$("input[type='radio'][name='contact']:checked").val()}`,
-        });
-        $(content).append(successModal);
-        successModal.showModal();
-        $('#transfer-amount').val('');
-        $('#contact-search').val('');
-        $("input[type='radio'][name='contact']:checked").prop('checked', false);
-      }
+      const successModal = msgModal({
+        title: 'Transaction completed',
+        content: `You transferred USD${Number(
+          $('#transfer-amount').val()
+        ).toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        })} to ${$("input[type='radio'][name='contact']:checked").val()}`,
+      });
+      $(content).append(successModal);
+      successModal.showModal();
+      $('#transfer-amount').val('');
+      $('#contact-search').val('');
+      $("input[type='radio'][name='contact']:checked").prop('checked', false);
     }
   });
 
   $(contactsWrapper).append(contactsList, amountInput, contactsButton);
   $(content).append(title, searchInput, contactsWrapper);
-  $(wrapper).append(content, nav, noContactModal, errorModal, foot);
+  $(wrapper).append(
+    content,
+    nav,
+    noContactModal,
+    noAmountModal,
+    invalidAmountModal,
+    foot
+  );
 
   return wrapper;
 }
-
-``;

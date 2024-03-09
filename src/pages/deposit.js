@@ -3,6 +3,7 @@ import { footer } from '../components/footer.js';
 import { input } from '../components/input.js';
 import { button } from '../components/button.js';
 import { balance } from '../components/balance.js';
+import { msgModal } from '../components/msg-modal.js';
 import dataServices from '../utils/data.js';
 
 const { getData, getUserById, getBalance } = dataServices();
@@ -22,15 +23,29 @@ export default function Deposit(onNavigate) {
   const amount = input('amount', 'deposit-amount', 'number');
   const depositButton = button('deposit');
 
+  const errorModal = msgModal({
+    title: 'Error',
+    content: 'Invalid amount',
+  });
+  const successModal = msgModal({
+    title: 'Successful operation',
+    content: 'Funds added to you account',
+  });
+
   $(depositButton)
     .off('click')
     .on('click', e => {
       e.preventDefault();
-      const newBalance = balance(
-        (initialBalance += Number($('#deposit-amount').val()))
-      );
-      $(balanceDiv).html(newBalance);
-      $('#deposit-amount').val('');
+      if (+$('#deposit-amount').val() > 0) {
+        const newBalance = balance(
+          (initialBalance += Number($('#deposit-amount').val()))
+        );
+        successModal.showModal();
+        $(balanceDiv).html(newBalance);
+        $('#deposit-amount').val('');
+      } else {
+        errorModal.showModal();
+      }
       return false;
     });
 
@@ -41,7 +56,7 @@ export default function Deposit(onNavigate) {
 
   $(balanceDiv).append(accountBalance);
   $(content).append(title, balanceDiv, amount, depositButton);
-  $(wrapper).append(nav, content, foot);
+  $(wrapper).append(nav, content, errorModal, successModal, foot);
 
   return wrapper;
 }
