@@ -18,7 +18,7 @@ export default function Login(onNavigate) {
   const signUpText = document.createElement('p');
   const signUpTextSpan = document.createElement('span');
   const modal = msgModal({
-    title: 'Error:',
+    title: 'Error',
     content: 'Invalid credentials',
   });
 
