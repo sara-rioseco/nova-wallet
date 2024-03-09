@@ -1,6 +1,6 @@
 # NovaWallet
 
-NovaWallet is a modern e-wallet web application designed to provide users with a convenient and secure way to manage their digital finances. Built using JavaScript, Bootstrap, and jQuery, NovaWallet offers a user-friendly interface and robust functionality to handle various financial transactions.
+NovaWallet is a modern e-wallet web application designed to provide users with a convenient and secure way to manage their digital finances. Built using JavaScript and jQuery, NovaWallet offers a user-friendly interface and robust functionality to handle various financial transactions.
 
 ## Features
 
@@ -8,12 +8,11 @@ NovaWallet is a modern e-wallet web application designed to provide users with a
 - **Wallet Management:** Users can easily add funds to their wallet, view their balance, and perform transactions seamlessly.
 - **Transaction History:** Keep track of all transactions with a detailed history view, including timestamps and transaction amounts.
 - **Responsive Design:** NovaWallet is optimized for both desktop and mobile devices, providing a consistent experience across all platforms.
-- **Customizable Settings:** Users can personalize their experience by adjusting settings such as currency preferences and change between dark and light mode.
+- *COMING SOON*Customizable Settings:** Users can personalize their experience by adjusting settings such as currency preferences and change between dark and light mode.
 
 ## Technologies Used
 
 - **JavaScript:** The primary programming language used for the frontend logic and interactivity.
-- **Bootstrap:** Utilized for responsive design and styling components to enhance the user interface.
 - **jQuery:** Simplifies DOM manipulation and event handling to create dynamic user experiences.
 
 ## Prototyping
