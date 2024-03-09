@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { button } from '../components/button.js';
 import { input } from '../components/input.js';
+import { msgModal } from '../components/msg-modal.js';
 import dataServices from '../utils/data.js';
 
 const { getData, createUser } = dataServices();
@@ -18,6 +19,15 @@ export default function SignUp(onNavigate) {
   const signUpButton = button('sign up');
   const loginText = document.createElement('p');
   const loginTextSpan = document.createElement('span');
+  const successModal = msgModal({
+    title: 'User created',
+    content: 'successfully',
+  });
+  const errorModal = msgModal({
+    title: 'Error:',
+    content: 'Unable to create user',
+    callback: onNavigate,
+  });
 
   wrapper.className = 'signup-wrapper';
   content.className = 'signup-content-wrapper';
@@ -45,13 +55,16 @@ export default function SignUp(onNavigate) {
       localStorage.setItem('lastname', user.lastname);
       localStorage.setItem('email', user.email);
       localStorage.setItem('role', user.role);
-      alert('User created successfully');
+      successModal.showModal();
       onNavigate('/nova-wallet/home');
     } catch (e) {
-      alert('Unable to create user');
       console.error(e.message);
+      errorModal.showModal();
+      $('#signup-name').val('');
+      $('#signup-lastname').val('');
+      $('#signup-email').val('');
+      $('#signup-password').val('');
     }
-    onNavigate('/nova-wallet/home');
   });
 
   $(loginTextSpan).click(() => {
@@ -68,7 +81,9 @@ export default function SignUp(onNavigate) {
     email,
     password,
     signUpButton,
-    loginText
+    loginText,
+    successModal,
+    errorModal
   );
   $(wrapper).append(content);
 

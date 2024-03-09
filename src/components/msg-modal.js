@@ -1,4 +1,4 @@
-export const msgModal = ({ options }) => {
+export const msgModal = options => {
   const dialog = document.createElement('dialog');
   const wrapper = document.createElement('div');
   const title = document.createElement('h3');
@@ -15,7 +15,12 @@ export const msgModal = ({ options }) => {
   button.classList.add('button', 'close-button');
   button.textContent = 'Ok';
 
-  $(button).click(() => dialog.close());
+  $(button).click(() => {
+    if (options.callback) {
+      options.callback('/nova-wallet/');
+    }
+    dialog.close();
+  });
 
   $(title).text(options.title);
   $(content).text(options.content);
