@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { button } from '../components/button.js';
 import { input } from '../components/input.js';
+import { msgModal } from '../components/msg-modal.js';
 import dataServices from '../utils/data.js';
 
 const { getData, userLogin } = dataServices();
@@ -16,6 +17,10 @@ export default function Login(onNavigate) {
   const loginButton = button('login');
   const signUpText = document.createElement('p');
   const signUpTextSpan = document.createElement('span');
+  const modal = msgModal({
+    title: 'Error:',
+    content: 'Invalid credentials',
+  });
 
   wrapper.className = 'login-wrapper';
   content.className = 'login-content-wrapper';
@@ -42,7 +47,7 @@ export default function Login(onNavigate) {
       localStorage.setItem('role', user.role);
       onNavigate('/nova-wallet/home');
     } catch (e) {
-      alert('Invalid credentials');
+      modal.showModal();
       console.error(e);
     }
   });
@@ -53,7 +58,15 @@ export default function Login(onNavigate) {
 
   $(title).append(titleSpan);
   $(signUpText).append(signUpTextSpan);
-  $(content).append(title, username, email, password, loginButton, signUpText);
+  $(content).append(
+    title,
+    username,
+    email,
+    password,
+    loginButton,
+    signUpText,
+    modal
+  );
   $(wrapper).append(content);
 
   return wrapper;

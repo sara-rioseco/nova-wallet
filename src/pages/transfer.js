@@ -3,6 +3,7 @@ import { footer } from '../components/footer.js';
 import { contact } from '../components/contact.js';
 import { button } from '../components/button.js';
 import { input } from '../components/input.js';
+import { msgModal } from '../components/msg-modal.js';
 import dataServices from '../utils/data.js';
 
 const { getData, getUserById, getContacts, getContactByName } = dataServices();
@@ -18,13 +19,20 @@ export default function Transfer(onNavigate) {
   const title = document.createElement('h2');
   const searchInput = input('contact', 'contact-search', 'text');
   const contactsWrapper = document.createElement('section');
-  // const contactsTitle = document.createElement('h3');
   const contactsList = document.createElement('form');
   const amountInput = input('amount', 'transfer-amount', 'number');
   const contactsButton = button('Send Money');
 
   const nav = header(onNavigate);
   const foot = footer();
+  const noContactModal = msgModal({
+    title: 'Error:',
+    content: 'Please select a contact',
+  });
+  const errorModal = msgModal({
+    title: 'Error:',
+    content: 'Please enter a transfer amount',
+  });
 
   contacts.forEach(item => {
     $(contactsList).append(contact(item));
@@ -64,30 +72,37 @@ export default function Transfer(onNavigate) {
   title.textContent = 'Send Money';
   wrapper.className = 'transfer-wrapper';
   content.className = 'transfer-content-wrapper';
-  // contactsTitle.textContent = 'Contacts';
   contactsList.classList.add('contacts-list');
   contactsWrapper.classList.add('contacts-wrapper');
 
   $(contactsButton).click(() => {
-    if ($('#transfer-amount').val() === '') {
-      alert('Please enter a transfer amount');
+    if ($("input[type='radio'][name='contact']:checked").val() === undefined) {
+      noContactModal.showModal();
     } else {
-      alert(
-        `You transferred USD${Number(
-          $('#transfer-amount').val()
-        ).toLocaleString('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        })} to ${$("input[type='radio'][name='contact']:checked").val()}`
-      );
-      $('#transfer-amount').val('');
-      $('#contact-search').val('');
+      if ($('#transfer-amount').val() === '') {
+        errorModal.showModal();
+      } else {
+        const successModal = msgModal({
+          title: 'Transaction completed',
+          content: `You transferred USD${Number(
+            $('#transfer-amount').val()
+          ).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          })} to ${$("input[type='radio'][name='contact']:checked").val()}`,
+        });
+        $(content).append(successModal);
+        successModal.showModal();
+        $('#transfer-amount').val('');
+        $('#contact-search').val('');
+        $("input[type='radio'][name='contact']:checked").prop('checked', false);
+      }
     }
   });
 
   $(contactsWrapper).append(contactsList, amountInput, contactsButton);
   $(content).append(title, searchInput, contactsWrapper);
-  $(wrapper).append(content, nav, foot);
+  $(wrapper).append(content, nav, noContactModal, errorModal, foot);
 
   return wrapper;
 }
