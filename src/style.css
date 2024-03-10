@@ -137,6 +137,7 @@ html {
 
 body {
   min-height: 100vh;
+  min-height: 100dvh;
   margin: auto;
   text-rendering: optimizeSpeed;
   font-family: var(--ff-body);
@@ -166,6 +167,7 @@ body::before {
 .root {
   width: 100vw;
   min-height: 100vh;
+  min-height: 100dvh;
   margin-inline: auto;
   display: flex;
   justify-content: center;
@@ -257,6 +259,7 @@ p.signup-text>span {
 .transactions-wrapper {
   width: 100vw;
   height: calc(100vh - 57.59px);
+  height: calc(100dvh - 57.59px);
   display: flex;
   flex-direction: column;
 }
