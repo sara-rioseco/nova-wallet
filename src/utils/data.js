@@ -1,5 +1,5 @@
 import * as fs from 'node:fs/promises';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export default function dataServices() {
   const dataUrl = 'https://json-server-gamma-brown.vercel.app/users';

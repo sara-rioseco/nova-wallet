@@ -5,7 +5,7 @@
       "name": "Sara",
       "lastname": "Rioseco",
       "email": "sara.rioseco@mail.com",
-      "password": "123456",
+      "password": "$2b$11$OH9AueEZIyYjZXWkNRp.dOcOk0N6Gn0GBD6E33xjraS3R.t57GQai",
       "role": "admin",
       "balance": 300,
       "transactions": [
@@ -28,7 +28,7 @@
       "name": "Pepito",
       "lastname": "Rioseco",
       "email": "rioseco@gmail.com",
-      "password": "123456",
+      "password": "$2b$11$OH9AueEZIyYjZXWkNRp.dOcOk0N6Gn0GBD6E33xjraS3R.t57GQai",
       "role": "user",
       "balance": 0,
       "transactions": [
@@ -51,7 +51,7 @@
       "name": "Juanita",
       "lastname": "Perez",
       "email": "joanita@mail.com",
-      "password": "password",
+      "password": "$2b$11$nIcEM0RJc5q8dnqh3pEa9eQGXuLxSTCc5ywLMMaj7IIz6KtsvX2C6",
       "role": "user",
       "balance": 600,
       "transactions": [
