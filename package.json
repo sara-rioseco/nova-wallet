@@ -58,6 +58,8 @@
   },
   "jest": {
     "testEnvironment": "jsdom"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1"
   }
 }
-
