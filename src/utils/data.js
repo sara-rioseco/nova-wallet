@@ -1,4 +1,5 @@
 import * as fs from 'node:fs/promises';
+import bcrypt from 'bcryptjs';
 
 export default function dataServices() {
   const dataUrl = 'https://json-server-gamma-brown.vercel.app/users';
@@ -68,38 +69,43 @@ export default function dataServices() {
     return user;
   };
 
-  const createUser = async function (data, name, lastname, email, password) {
-    if (!data || !name || !lastname || !email || !password)
+  const createUser = async function (data, name, lastname, email, pass) {
+    if (!data || !name || !lastname || !email || !pass) {
       throw new Error('Missing arguments');
+    }
     if (
       typeof name !== 'string' ||
       typeof lastname !== 'string' ||
       typeof email !== 'string' ||
-      typeof password !== 'string'
-    )
+      typeof pass !== 'string'
+    ) {
       throw new Error('Wrong argument types');
-    const users = data.users.length;
-    const newUser = {
-      id: users + 1,
-      name,
-      lastname,
-      email,
-      password,
-      role: 'user',
-      balance: 0,
-      transactions: [],
-      contacts: [],
-    };
-    data.users.push(newUser);
-
-    try {
-      await fs.writeFile(dataUrl, JSON.stringify(data), {
-        encoding: 'utf-8',
-      });
-      return newUser;
-    } catch (err) {
-      throw new Error(err);
     }
+    const users = data.users.length;
+
+    bcrypt.hash(pass, 11, async (err, hash) => {
+      const newUser = {
+        id: users + 1,
+        name,
+        lastname,
+        email,
+        password: hash,
+        role: 'user',
+        balance: 0,
+        transactions: [],
+        contacts: [],
+      };
+      data.users.push(newUser);
+
+      try {
+        await fs.writeFile(dataUrl, JSON.stringify(data), {
+          encoding: 'utf-8',
+        });
+        return newUser;
+      } catch (err) {
+        throw new Error(err);
+      }
+    });
   };
 
   const updateUser = async function (data, uid, options) {
@@ -107,18 +113,35 @@ export default function dataServices() {
       throw new Error('Id of type number is required');
 
     const user = getUserById(data, uid);
+    let updatedUser;
+    if (options.password) {
+      bcrypt.hash(options.password, 11, async (err, hash) => {
+        updatedUser = {
+          id: uid,
+          name: options.name || user.name,
+          lastname: options.lastname || user.lastname,
+          email: user.email,
+          password: hash,
+          role: user.role,
+          balance: user.balance,
+          transactions: user.transactions,
+          contacts: user.contacts,
+        };
+      });
+    } else {
+      updatedUser = {
+        id: uid,
+        name: options.name || user.name,
+        lastname: options.lastname || user.lastname,
+        email: user.email,
+        password: user.password,
+        role: user.role,
+        balance: user.balance,
+        transactions: user.transactions,
+        contacts: user.contacts,
+      };
+    }
 
-    const updatedUser = {
-      id: uid,
-      name: options.name || user.name,
-      lastname: options.lastname || user.lastname,
-      email: user.email,
-      password: options.password || user.password,
-      role: user.role,
-      balance: user.balance,
-      transactions: user.transactions,
-      contacts: user.contacts,
-    };
     const userI = data.indexOf(user);
 
     data.splice(userI, 1, updatedUser);
@@ -134,18 +157,19 @@ export default function dataServices() {
   };
 
   // LOGIN
-  const userLogin = async (data, email, password) => {
+  const userLogin = async (data, email, pass) => {
     if (
       !data ||
       !email ||
-      !password ||
+      !pass ||
       typeof email !== 'string' ||
-      typeof password !== 'string'
+      typeof pass !== 'string'
     ) {
       throw new Error('Wrong argument types');
     }
     const user = await getUserByEmail(data, email);
-    if (user && user.password === password) {
+    const isPasswordValid = await bcrypt.compare(pass, user.password);
+    if (user && isPasswordValid) {
       return user;
     } else {
       throw new Error('Wrong credentials');
