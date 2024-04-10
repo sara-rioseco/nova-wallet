@@ -45,6 +45,7 @@ export default function Login(onNavigate) {
       localStorage.setItem('lastname', user.lastname);
       localStorage.setItem('email', user.email);
       localStorage.setItem('role', user.role);
+      console.log(user.password, password);
       onNavigate('/nova-wallet/home');
     } catch (e) {
       modal.showModal();
