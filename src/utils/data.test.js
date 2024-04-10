@@ -30,14 +30,14 @@ const mockData = {
     {
       id: 1,
       email: 'user1@test.com',
-      password: 'password123',
+      password: '$2a$11$ztL8TxXjkGMTuzsh.p9YJ.2BsDpZeuX7xlCZUuYAXv0z7sUaWTRzW',
       balance: 100,
       contacts: [],
     },
     {
       id: 2,
       email: 'user2@test.com',
-      password: 'password456',
+      password: '$2a$11$rvXvYuy9MMFoq8gu7JgdMOevuawfSQiI0VqSnU9VnyRHnkvNfyTJe',
       balance: 200,
       contacts: [
         {
@@ -195,7 +195,9 @@ describe('dataServices', () => {
       expect(updatedUser.name).toBe('Juanito');
       expect(updatedUser.lastname).toBe('Perez');
       expect(updatedUser.email).toBe('pepito@test.com');
-      expect(updatedUser.password).toBe('newpassword456');
+      expect(updatedUser.password).toBe(
+        '$2a$11$UaHqlvPkNBRWRwrkjHlHE.gbPyGIZ4levtrQ2o1GngGIsl9sX2K0K'
+      );
     });
     it('should throw an error if user not found', async () => {
       await expect(
@@ -229,7 +231,8 @@ describe('dataServices', () => {
       expect(loggedInUser).toEqual({
         id: 1,
         email: 'user1@test.com',
-        password: 'password123',
+        password:
+          '$2a$11$ztL8TxXjkGMTuzsh.p9YJ.2BsDpZeuX7xlCZUuYAXv0z7sUaWTRzW',
         balance: 100,
         contacts: [],
       });
